@@ -29,7 +29,7 @@ body{
     position: relative;
     left: 155px;
 }
-.units button{
+.units button , .btn-days button{
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -134,6 +134,9 @@ hr{
     padding-left: 40px;
 }
 
+.form input::placeholder{
+    color: white;
+}
 
 .form input:focus{
     border: none;
@@ -150,4 +153,128 @@ hr{
     padding: 12px;
     font-size: 18px;
     margin-left: 25px;
+}
+
+.main-section{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 140px;
+}
+
+
+.first-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    left: 80px;
+    bottom: 50px;
+}
+.bg-today{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-image: url(./assets/images/bg-today-large.svg);
+    background-repeat: no-repeat;
+    width: 120%;
+    border-radius: 30px;
+    background-position: center;
+    padding: 70px;
+
+}
+
+.location{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 13px;
+    right: 10px;
+
+}
+.location h2{
+    color: white;
+    margin: 4px;
+}
+.location h4{
+    color: #8c8c8f;
+    margin: 4px;
+}
+
+.temprature{
+    display: flex;
+    align-items: center;
+}
+.temprature img{
+    width: 120px;
+    height: 120px;
+}
+.temprature h1{
+    color: white;
+    font-size: 94px;
+}
+
+
+.second-section{
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    background-color: #25253F;
+    border-radius: 10px;
+    padding: 20px;
+
+}
+.dropDown-Days{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropDown-Days h1{
+    color: white;
+    font-size: 20px;
+}
+.btn-days button{
+    background-color: #3C3A5F;
+    padding: 0px;
+    width: 80px;
+}
+
+.whether-Hours{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.whether-Hours .slide{
+    width: 89%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 17px;
+    margin: 10px 0px;
+    align-items: center;
+    background-color: #3C3A5F;
+    border-radius: 8px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;;
+}
+
+.slide .img-section{
+    display: flex;
+    align-items: center;
+    /* padding: 7px; */
+    margin-right: 30px;
+    color: white;
+}
+
+.slide .img-section img{
+    width: 50px;
+    height: 50px;
+}
+
+.slide h4{
+    color: white;
 }
