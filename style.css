@@ -168,7 +168,7 @@ hr{
     flex-direction: column;
     align-items: center;
     position: relative;
-    left: 80px;
+    left: 60px;
     bottom: 50px;
 }
 .bg-today{
@@ -177,7 +177,7 @@ hr{
     align-items: center;
     background-image: url(./assets/images/bg-today-large.svg);
     background-repeat: no-repeat;
-    width: 120%;
+    width: 110%;
     border-radius: 30px;
     background-position: center;
     padding: 70px;
@@ -188,8 +188,8 @@ hr{
     display: flex;
     flex-direction: column;
     position: relative;
-    top: 13px;
-    right: 10px;
+    top: 15px;
+    /* left: 10px; */
 
 }
 .location h2{
@@ -215,8 +215,85 @@ hr{
 }
 
 
+.prediction{
+    display: flex;
+    justify-content: space-around;
+    height: 130px;
+    width: 115%;
+}
+
+.square{
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: first baseline ;
+    padding: 10px;
+    margin: 0px 15px;
+    border-radius: 12px;
+    background-color: #25253F;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.square h4{
+    color: gray;
+    padding: 0px 12px;
+    margin: 0px;
+    position: relative;
+    top: 6px;
+}
+.square h1{
+    color: white;
+    padding: 0px 12px;
+    margin: 0px;
+    font-size: 40px;
+    font-weight: 300;
+    margin-top: 24px;
+}
+
+.daily-forecast{
+    width: 110%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: first baseline;
+    margin-top: 40px;
+}
+
+.daily-forecast h3{
+    color: white;
+}
+
+.days-Whether{
+    display: flex;
+    position: relative;
+    right: 14px;
+    width: 105%;
+}
+.whether-days{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    margin: 0px 10px;
+    border-radius: 8px;
+    background-color: #25253F;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.whether-days h3,h4{
+    color: white;
+}
+.whether-days img{
+    width: 60px;
+}
+.days-percentege{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
 .second-section{
     width: 25%;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     background-color: #25253F;
@@ -251,7 +328,7 @@ hr{
 
 .whether-Hours .slide{
     width: 89%;
-    height: 50px;
+    height: 65px;
     display: flex;
     justify-content: space-between;
     padding: 0px 17px;
@@ -259,7 +336,7 @@ hr{
     align-items: center;
     background-color: #3C3A5F;
     border-radius: 8px;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .slide .img-section{
