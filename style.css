@@ -43,20 +43,34 @@ body{
 }
 
 .dropDown{
+    /* display: flex;
+    flex-direction: column; */
     margin-top: 10px;
     width: fit-content;
     background-color: #25253f;
     border-radius: 6px;
     padding: 10px;
-    position: relative;
-    left: 50px;
+    position: absolute;
+    right: 100px;
     z-index: 10;
 }
 
+.temprature{
+    display: flex;
+    flex-direction: column;
+    
+}
+.temprature .Celsius{
+    height: 40px;
+}
+.temprature h5{
+    text-align: left;
+}
 .dropDown .btn{
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     white-space: nowrap;
     color: white;
     border: none;
@@ -70,7 +84,7 @@ body{
 .dropDown .img-check{
     position: relative;
     left: 30px;
-    
+    width: 20px;
 }
 
 .dropDown .title{
@@ -159,6 +173,7 @@ hr{
     width: 100%;
     display: flex;
     justify-content: space-around;
+    align-items: center;
     margin-top: 140px;
 }
 
@@ -169,7 +184,7 @@ hr{
     align-items: center;
     position: relative;
     left: 60px;
-    bottom: 50px;
+    bottom: 25px;
 }
 .bg-today{
     display: flex;
@@ -203,6 +218,7 @@ hr{
 
 .temprature{
     display: flex;
+    flex-direction:row ;
     align-items: center;
 }
 .temprature img{
