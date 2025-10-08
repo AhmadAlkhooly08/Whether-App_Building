@@ -43,28 +43,27 @@ body{
 }
 
 .dropDown{
-    /* display: flex;
-    flex-direction: column; */
     margin-top: 10px;
     width: fit-content;
     background-color: #25253f;
     border-radius: 6px;
     padding: 10px;
     position: absolute;
-    right: 100px;
+    right: 130px;
+    top: 40px;
     z-index: 10;
 }
-
-.temprature{
+.dropDown div{
     display: flex;
     flex-direction: column;
-    
+    justify-content: flex-start;
 }
 .temprature .Celsius{
     height: 40px;
 }
 .temprature h5{
-    text-align: left;
+    position: relative;
+    right: 43px;
 }
 .dropDown .btn{
     width: 100%;
@@ -83,7 +82,7 @@ body{
 }
 .dropDown .img-check{
     position: relative;
-    left: 30px;
+    left: 37px;
     width: 20px;
 }
 
@@ -106,9 +105,6 @@ hr{
     background-color: #2f2f49;
     border-radius: 5px;
 
-}
-.hidden{
-    display: none;
 }
 
 .searchBar{
@@ -169,6 +165,40 @@ hr{
     margin-left: 25px;
 }
 
+.select-City{
+    /* margin-top: 10px; */
+    width: 32.3%;
+    background-color: #25253f;
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 220px;
+    right: 530px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+}
+
+.select-City button{
+    width: 100%;
+    white-space: nowrap;
+    color: white;
+    border: none;
+    background-color: Transparent;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 10px;
+    text-align: left;
+    padding-right: 150px;
+    font-size: 16px;
+}
+
+.select-City button:hover{
+    background-color: #2f2f49;
+    border-radius: 10px;
+}
 .main-section{
     width: 100%;
     display: flex;
@@ -315,13 +345,54 @@ hr{
     background-color: #25253F;
     border-radius: 10px;
     padding: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
 }
-.dropDown-Days{
-    display: flex;
+.row{
     width: 100%;
+    display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.days-select{
+    margin-top: 8px;
+    background-color: #25253f;
+    border-radius: 10px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    border: #414142 solid 1px;
+    position: absolute;
+    right: 110px;
+    top: 535px;
+}
+.days-select button{
+    white-space: nowrap;
+    color: white;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    overflow: visible;
+    padding: 10px;
+    text-align: left;
+    padding-right: 50px;
+    font-size: 16px;
+    margin: 10px;
+}
+.days-select button:hover{
+    background-color: #2f2f49;
+    border-radius: 6px;
+}
+.days-select .active{
+    background-color: #2f2f49;
+    border-radius: 6px;
+}
+
+.dropDown-Days{
+    display: flex;
+    flex-direction: column;
 }
 
 .dropDown-Days h1{
@@ -370,4 +441,8 @@ hr{
 
 .slide h4{
     color: white;
+}
+
+.hidden{
+    display: none;
 }

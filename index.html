@@ -31,7 +31,7 @@
             <img src="./assets/images/icon-dropdown.svg" alt="" />
           </button>
         </div>
-        <div class="dropDown">
+        <div class="dropDown hidden">
           <button class="btn btn_imperial">Switch to Imperial</button>
           <div class="temprature">
             <h5 class="title">Temprature</h5>
@@ -103,8 +103,14 @@
           <input type="text" name="Search" placeholder= " Searche for a place...">
           <button>Search</button>
         </div>
+        <div class="select-City hidden">
+          <button>Tokyo</button>
+          <button>United States</button>
+          <button>Kudus</button>
+          <button>Amman</button>
+        </div>
     </div>
-
+    
     <div class="main-section">
       <div class="first-section">
         <div class="bg-today">
@@ -202,12 +208,23 @@
 
       <div class="second-section">
         <div class="dropDown-Days">
-          <h1>Hourly forecast</h1>
-          <div class="btn-days">
-            <button>
-              <p>Friday</p>
-              <img src="./assets/images/icon-dropdown.svg" alt="" />
-            </button>
+          <div class="row">
+            <h1>Hourly forecast</h1>
+            <div class="btn-days">
+              <button>
+                <p>Friday</p>
+                <img src="./assets/images/icon-dropdown.svg" alt="" />
+              </button>
+            </div>
+          </div>
+          <div class="days-select hidden">
+            <button>Monday</button>
+            <button>Tuesday</button>
+            <button>Wednesday</button>
+            <button>Thursday</button>
+            <button class="active">Friday</button>
+            <button>saturday</button>
+            <button>sunday</button>
           </div>
         </div>
         <div class="whether-Hours">
