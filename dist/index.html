@@ -1,0 +1,270 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- displays site properly based on user's device -->
+
+    <link rel="icon" type="image/x-icon" href="/1779940.1f31d9c5.png">
+    <link rel="stylesheet" href="/whether-App.3a01df49.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;display=swap" rel="stylesheet">
+    <title>Frontend Mentor | Weather app</title>
+
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <script defer="" type="module" src="/whether-App.e438c7cc.js"></script></head>
+  
+  <body>
+    <div class="navBar">
+      <div class="logo">
+        <img src="/logo.92136df5.svg" alt="">
+      </div>
+
+      <div class="dropdown-Units">
+        <div class="units">
+          <button>
+            <img src="/icon-units.61963bb4.svg" alt="">
+            <p>Units</p>
+            <img src="/icon-dropdown.31d7eb4d.svg" alt="">
+          </button>
+        </div>
+        <div class="dropDown hidden">
+          <button class="btn btn_imperial">Switch to Imperial</button>
+          <div class="temprature">
+            <h5 class="title">Temprature</h5>
+            <button class="btn Celsius">
+              Celsius(°C)
+              <img class="img-check" src="/icon-checkmark.b8467684.svg" alt="">
+            </button>
+            <button class="btn">
+              fahrenheit(°F)
+              <img class="img-check hidden" src="/icon-checkmark.b8467684.svg" alt="">
+            </button>
+          </div>
+          <hr>
+          <div class="Wind-Speed">
+            <h5 class="title">Wind Speed</h5>
+            <button class="btn">
+              Km/h
+              <img class="img-check" src="/icon-checkmark.b8467684.svg" alt="">
+            </button>
+            <button class="btn">
+              mph
+              <img class="img-check hidden" src="/icon-checkmark.b8467684.svg" alt="">
+            </button>
+          </div>
+          <hr>
+          <div class="precipitation">
+            <h5 class="title">precipitation</h5>
+            <button class="btn">
+              Millimeters(mm)
+              <img class="img-check hidden" src="/icon-checkmark.b8467684.svg" alt="">
+            </button>
+
+            <button class="btn">
+              Inches(in)
+              <img class="img-check" src="/icon-checkmark.b8467684.svg" alt="">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Search for a city-->
+    <div class="searchBar">
+        <h1>How's the sky looking today?</h1>
+        <div class="form">
+          <input type="text" name="Search" placeholder=" Searche for a place...">
+          <button>Search</button>
+        </div>
+        <div class="select-City hidden">
+          <button>Tokyo</button>
+          <button>United States</button>
+          <button>Kudus</button>
+          <button>Amman</button>
+        </div>
+    </div>
+    
+    <!-- <div class="main-section">
+      <div class="first-section">
+        <div class="bg-today">
+          <div class="location">
+            <h2>Istanbul Turkey</h2>
+            <h4>Friday, oct 3 , 2025</h4>
+          </div>
+
+          <div class="temprature">
+            <img src="./assets/images/icon-sunny.webp" alt="">
+            <h1>20°</h1>
+          </div>
+        </div>
+        <div class="prediction">
+            <div class="square Feels-Like">
+              <h4>Feels Like</h4>
+              <h1>18°</h1>
+            </div>
+            <div class="square Humidity">
+              <h4>Humidity</h4>
+              <h1>46%</h1>
+            </div>
+            <div class="square Wind">
+              <h4>Wind</h4>
+              <h1>14 km/h</h1>
+            </div>
+            <div class="square precipitation">
+              <h4>precipitation</h4>
+              <h1>0 mm</h1>
+            </div>
+        </div>
+
+        <div class="daily-forecast">
+          <h3>Daily forecast</h3>
+          <div class="days-Whether">
+            <div class="whether-days">
+              <h3>Tue</h3>
+              <img src="./assets/images/icon-rain.webp" alt="">
+              <div class="days-percentege">
+                <h4>20°</h4>
+                <h4>14°</h4>
+              </div>
+            </div>
+            <div class="whether-days">
+              <h3>Wed</h3>
+              <img src="./assets/images/icon-drizzle.webp" alt="">
+              <div class="days-percentege">
+                <h4>21°</h4>
+                <h4>15°</h4>
+              </div>
+            </div>
+            <div class="whether-days">
+              <h3>Thu</h3>
+              <img src="./assets/images/icon-sunny.webp" alt="">
+              <div class="days-percentege">
+                <h4>24°</h4>
+                <h4>14°</h4>
+              </div>
+            </div>
+            <div class="whether-days">
+              <h3>Fri</h3>
+              <img src="./assets/images/icon-partly-cloudy.webp" alt="">
+              <div class="days-percentege">
+                <h4>25°</h4>
+                <h4>13°</h4>
+              </div>
+            </div>
+            <div class="whether-days">
+              <h3>Sat</h3>
+              <img src="./assets/images/icon-storm.webp" alt="">
+              <div class="days-percentege">
+                <h4>21°</h4>
+                <h4>15°</h4>
+              </div>
+            </div>
+            <div class="whether-days">
+              <h3>Sun</h3>
+              <img src="./assets/images/icon-snow.webp" alt="">
+              <div class="days-percentege">
+                <h4>25°</h4>
+                <h4>16°</h4>
+              </div>
+            </div>
+            <div class="whether-days">
+              <h3>Mon</h3>
+              <img src="./assets/images/icon-fog.webp" alt="">
+              <div class="days-percentege">
+                <h4>24°</h4>
+                <h4>15°</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="second-section">
+        <div class="dropDown-Days">
+          <div class="row">
+            <h1>Hourly forecast</h1>
+            <div class="btn-days">
+              <button>
+                <p>Friday</p>
+                <img src="./assets/images/icon-dropdown.svg" alt="" />
+              </button>
+            </div>
+          </div>
+          <div class="days-select hidden">
+            <button>Monday</button>
+            <button>Tuesday</button>
+            <button>Wednesday</button>
+            <button>Thursday</button>
+            <button class="active">Friday</button>
+            <button>saturday</button>
+            <button>sunday</button>
+          </div>
+        </div>
+        <div class="whether-Hours">
+          <div class="slide">
+            <div class="img-section">
+              <img src="./assets/images/icon-partly-cloudy.webp" alt="">
+              <p>3 PM</p>
+            </div>
+              <h4>20°</h4>
+          </div>
+          <div class="slide">
+            <div class="img-section">
+              <img src="./assets/images/icon-overcast.webp" alt="">
+              <p>4 PM</p>
+            </div>
+              <h4>20°</h4>
+          </div>
+          <div class="slide">
+            <div class="img-section">
+              <img src="./assets/images/icon-sunny.webp" alt="">
+              <p>5 PM</p>
+            </div>
+              <h4>20°</h4>
+          </div>
+          <div class="slide">
+            <div class="img-section">
+              <img src="./assets/images/icon-overcast.webp" alt="">
+              <p>6 PM</p>
+            </div>
+              <h4>19°</h4>
+          </div>
+
+          <div class="slide">
+            <div class="img-section">
+              <img src="./assets/images/icon-rain.webp" alt="">
+              <p>7 PM</p>
+            </div>
+              <h4>18°</h4>
+          </div>
+          <div class="slide">
+            <div class="img-section">
+              <img src="./assets/images/icon-storm.webp" alt="">
+              <p>8 PM</p>
+            </div>
+              <h4>18°</h4>
+          </div>
+          <div class="slide">
+            <div class="img-section">
+              <img src="./assets/images/icon-fog.webp" alt="">
+              <p>9 PM</p>
+            </div>
+              <h4>17°</h4>
+          </div>
+          <div class="slide">
+            <div class="img-section">
+              <img src="./assets/images/icon-overcast.webp" alt="">
+              <p>10 PM</p>
+            </div>
+              <h4>17°</h4>
+          </div>
+
+        </div>
+      </div>
+    </div> -->
+    <!-- <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>. 
+    Coded by <a href="#">Ahmad Alkhooly</a>.
+  </div> -->
+  
+
+</body></html>

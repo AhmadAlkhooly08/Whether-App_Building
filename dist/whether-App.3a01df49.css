@@ -1,0 +1,451 @@
+body {
+  background-color: #02012b;
+  font-family: DM Sans, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  overflow-x: hidden;
+}
+
+.navBar {
+  justify-content: space-around;
+  width: 100%;
+  display: flex;
+  position: relative;
+  top: 30px;
+}
+
+.navBar .logo {
+  position: relative;
+  right: 180px;
+}
+
+.dropdown-Units {
+  flex-direction: column;
+  width: 7%;
+  height: fit-content;
+  display: flex;
+}
+
+.units {
+  position: relative;
+  left: 155px;
+}
+
+.units button, .btn-days button {
+  color: #fff;
+  width: 100px;
+  box-shadow: none;
+  cursor: pointer;
+  background-color: #25253f;
+  border: #0e0e0e;
+  border-radius: 5px;
+  justify-content: space-around;
+  align-items: center;
+  display: flex;
+}
+
+.dropDown {
+  z-index: 10;
+  background-color: #25253f;
+  border-radius: 6px;
+  width: fit-content;
+  margin-top: 10px;
+  padding: 10px;
+  position: absolute;
+  top: 40px;
+  right: 130px;
+}
+
+.dropDown div {
+  flex-direction: column;
+  justify-content: flex-start;
+  display: flex;
+}
+
+.temprature .Celsius {
+  height: 40px;
+}
+
+.temprature h5 {
+  position: relative;
+  right: 43px;
+}
+
+.dropDown .btn {
+  white-space: nowrap;
+  color: #fff;
+  cursor: pointer;
+  background-color: #0000;
+  border: none;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 50px 10px 10px;
+  font-size: 16px;
+  display: flex;
+  overflow: hidden;
+}
+
+.dropDown .img-check {
+  width: 20px;
+  position: relative;
+  left: 37px;
+}
+
+.dropDown .title {
+  color: #636276;
+  margin: 10px;
+}
+
+hr {
+  background-color: #636276;
+  border: none;
+  height: 1px;
+}
+
+.dropDown .btn:hover, .dropDown .active {
+  background-color: #2f2f49;
+  border-radius: 5px;
+}
+
+.searchBar {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+  top: 80px;
+}
+
+.searchBar h1 {
+  text-align: center;
+  color: #fff;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 50px;
+}
+
+.form {
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  display: flex;
+}
+
+.form input {
+  color: #fff;
+  width: 450px;
+  height: 45px;
+  box-shadow: none;
+  background-color: #25253f;
+  background-image: url("icon-search.6b1adb10.svg");
+  background-position: 20px 13px;
+  background-repeat: no-repeat;
+  border: none;
+  border-radius: 5px;
+  padding-left: 40px;
+  font-size: 17px;
+}
+
+.form input::placeholder {
+  color: #fff;
+}
+
+.form input:focus {
+  background-image: none;
+  border: none;
+  outline: none;
+}
+
+.form button {
+  box-shadow: none;
+  color: #fff;
+  background-color: #4657da;
+  border: none;
+  border-radius: 5px;
+  margin-left: 25px;
+  padding: 12px;
+  font-size: 18px;
+}
+
+.select-City {
+  z-index: 20;
+  background-color: #25253f;
+  border-radius: 10px;
+  flex-direction: column;
+  width: 32.3%;
+  padding: 10px;
+  display: flex;
+  position: absolute;
+  top: 220px;
+  right: 530px;
+  box-shadow: 0 7px 29px #64646f33;
+}
+
+.select-City button {
+  white-space: nowrap;
+  color: #fff;
+  cursor: pointer;
+  text-align: left;
+  background-color: #0000;
+  border: none;
+  width: 100%;
+  padding: 10px 150px 10px 10px;
+  font-size: 16px;
+  overflow: hidden;
+}
+
+.select-City button:hover {
+  background-color: #2f2f49;
+  border-radius: 10px;
+}
+
+.main-section {
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin-top: 140px;
+  display: flex;
+}
+
+.first-section {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  position: relative;
+  bottom: 25px;
+  left: 60px;
+}
+
+.bg-today {
+  background-image: url("bg-today-large.e18d9c34.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 30px;
+  justify-content: space-between;
+  align-items: center;
+  width: 110%;
+  padding: 70px;
+  display: flex;
+}
+
+.location {
+  flex-direction: column;
+  display: flex;
+  position: relative;
+  top: 15px;
+}
+
+.location h2 {
+  color: #fff;
+  margin: 4px;
+}
+
+.location h4 {
+  color: #8c8c8f;
+  margin: 4px;
+}
+
+.temprature {
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+}
+
+.temprature img {
+  width: 120px;
+  height: 120px;
+}
+
+.temprature h1 {
+  color: #fff;
+  font-size: 94px;
+}
+
+.prediction {
+  justify-content: space-around;
+  width: 115%;
+  height: 130px;
+  display: flex;
+}
+
+.square {
+  background-color: #25253f;
+  border-radius: 12px;
+  flex-direction: column;
+  align-items: baseline;
+  width: 25%;
+  margin: 0 15px;
+  padding: 10px;
+  display: flex;
+  box-shadow: 0 7px 29px #64646f33;
+}
+
+.square h4 {
+  color: gray;
+  margin: 0;
+  padding: 0 12px;
+  position: relative;
+  top: 6px;
+}
+
+.square h1 {
+  color: #fff;
+  margin: 24px 0 0;
+  padding: 0 12px;
+  font-size: 40px;
+  font-weight: 300;
+}
+
+.daily-forecast {
+  flex-direction: column;
+  align-items: baseline;
+  width: 110%;
+  margin-top: 40px;
+  display: flex;
+}
+
+.daily-forecast h3 {
+  color: #fff;
+}
+
+.days-Whether {
+  width: 105%;
+  display: flex;
+  position: relative;
+  right: 14px;
+}
+
+.whether-days {
+  background-color: #25253f;
+  border-radius: 8px;
+  flex-direction: column;
+  align-items: center;
+  width: 20%;
+  margin: 0 10px;
+  padding: 5px;
+  display: flex;
+  box-shadow: 0 7px 29px #64646f33;
+}
+
+.whether-days h3, h4 {
+  color: #fff;
+}
+
+.whether-days img {
+  width: 60px;
+}
+
+.days-percentege {
+  justify-content: space-between;
+  width: 80%;
+  display: flex;
+}
+
+.second-section {
+  background-color: #25253f;
+  border-radius: 10px;
+  flex-direction: column;
+  width: 25%;
+  height: fit-content;
+  padding: 20px;
+  display: flex;
+  box-shadow: 0 7px 29px #64646f33;
+}
+
+.row {
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  display: flex;
+}
+
+.days-select {
+  z-index: 100;
+  text-align: left;
+  background-color: #25253f;
+  border: 1px solid #414142;
+  border-radius: 10px;
+  flex-direction: column;
+  margin-top: 8px;
+  display: flex;
+  position: absolute;
+  top: 535px;
+  right: 110px;
+}
+
+.days-select button {
+  white-space: nowrap;
+  color: #fff;
+  cursor: pointer;
+  text-align: left;
+  background-color: #0000;
+  border: none;
+  margin: 10px;
+  padding: 10px 50px 10px 10px;
+  font-size: 16px;
+  overflow: visible;
+}
+
+.days-select button:hover, .days-select .active {
+  background-color: #2f2f49;
+  border-radius: 6px;
+}
+
+.dropDown-Days {
+  flex-direction: column;
+  display: flex;
+}
+
+.dropDown-Days h1 {
+  color: #fff;
+  font-size: 20px;
+}
+
+.btn-days button {
+  background-color: #3c3a5f;
+  width: 80px;
+  padding: 0;
+}
+
+.whether-Hours {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  display: flex;
+}
+
+.whether-Hours .slide {
+  background-color: #3c3a5f;
+  border-radius: 8px;
+  justify-content: space-between;
+  align-items: center;
+  width: 89%;
+  height: 65px;
+  margin: 10px 0;
+  padding: 0 17px;
+  display: flex;
+  box-shadow: 0 7px 29px #64646f33;
+}
+
+.slide .img-section {
+  color: #fff;
+  align-items: center;
+  margin-right: 30px;
+  display: flex;
+}
+
+.slide .img-section img {
+  width: 50px;
+  height: 50px;
+}
+
+.slide h4 {
+  color: #fff;
+}
+
+.hidden {
+  display: none;
+}
+/*# sourceMappingURL=whether-App.3a01df49.css.map */
