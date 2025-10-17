@@ -1,5 +1,5 @@
-import {geoLocation} from './model.js'
-
+import * as model from './model.js'
+import GeoView from './view/GeoView.js'
 
 
 const ControlLocation = async function(){
@@ -7,10 +7,8 @@ const ControlLocation = async function(){
     navigator.geolocation.getCurrentPosition(async function(position){
         try{
             const { latitude, longitude } = position.coords;
-            // const lat = Number(latitude.toFixed(6))
-            // const long = Number(longitude.toFixed(6))
-            console.log(latitude,longitude);
-            await geoLocation(latitude,longitude)
+            await model.geoLocation(latitude,longitude)
+            GeoView.render(model.whetherData)
         }catch(err){
             console.log(err);
         }
