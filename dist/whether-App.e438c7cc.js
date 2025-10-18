@@ -732,7 +732,7 @@ const ControlLocation = async function() {
 };
 ControlLocation();
 
-},{"./model.js":"6YxfE","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./view/GeoView.js":"5uBhZ"}],"6YxfE":[function(require,module,exports,__globalThis) {
+},{"./model.js":"6YxfE","./view/GeoView.js":"5uBhZ","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"6YxfE":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "whetherData", ()=>whetherData);
@@ -743,21 +743,27 @@ const geoLocation = async function(lat, long) {
         const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=auto`);
         const data = await res.json();
         console.log(data);
+        data.daily.time = data.daily.time.map((el)=>{
+            const date = new Date(el);
+            return date.toLocaleDateString('en-US', {
+                weekday: 'short'
+            });
+        });
         whetherData.CurrentWhether = {
-            apparentTempreture: data.current.apparent_temperature,
+            apparentTempreture: Math.trunc(data.current.apparent_temperature),
             precipitation: data.current.precipitation,
-            windSpeed: data.current.wind_speed_10m,
-            Tempreture: data.current.temperature_2m,
-            humidity: data.current.relative_humidity_2m,
+            windSpeed: Math.trunc(data.current.wind_speed_10m),
+            Tempreture: Math.trunc(data.current.temperature_2m),
+            humidity: Math.trunc(data.current.relative_humidity_2m),
             location: data.timezone
         };
         whetherData.DailyWheather = {
-            maxTempreture: data.daily.temperature_2m_max,
-            minTempreture: data.daily.temperature_2m_min,
+            maxTempreture: data.daily.temperature_2m_max.map((el)=>Math.trunc(el)),
+            minTempreture: data.daily.temperature_2m_min.map((el)=>Math.trunc(el)),
             date: data.daily.time
         };
         whetherData.HourlyWeather = {
-            tempreture: data.hourly.temperature_2m.slice(0, 8),
+            tempreture: data.hourly.temperature_2m.slice(0, 8).map((el)=>Math.trunc(el)),
             time: data.hourly.time.slice(0, 8)
         };
         console.log(whetherData);
@@ -799,6 +805,25 @@ exports.export = function(dest, destName, get) {
 },{}],"5uBhZ":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+var _iconSunnyPng = require("../../images/icon-sunny.png");
+var _iconSunnyPngDefault = parcelHelpers.interopDefault(_iconSunnyPng);
+var _iconRainWebp = require("../../images/icon-rain.webp");
+var _iconRainWebpDefault = parcelHelpers.interopDefault(_iconRainWebp);
+var _iconDrizzleWebp = require("../../images/icon-drizzle.webp");
+var _iconDrizzleWebpDefault = parcelHelpers.interopDefault(_iconDrizzleWebp);
+var _iconPartlyCloudyWebp = require("../../images/icon-partly-cloudy.webp");
+var _iconPartlyCloudyWebpDefault = parcelHelpers.interopDefault(_iconPartlyCloudyWebp);
+var _iconStormWebp = require("../../images/icon-storm.webp");
+var _iconStormWebpDefault = parcelHelpers.interopDefault(_iconStormWebp);
+var _iconSnowWebp = require("../../images/icon-snow.webp");
+var _iconSnowWebpDefault = parcelHelpers.interopDefault(_iconSnowWebp);
+var _iconFogWebp = require("../../images/icon-fog.webp");
+var _iconFogWebpDefault = parcelHelpers.interopDefault(_iconFogWebp);
+var _iconOvercastWebp = require("../../images/icon-overcast.webp");
+var _iconOvercastWebpDefault = parcelHelpers.interopDefault(_iconOvercastWebp);
+var _iconDropdownSvg = require("../../images/icon-dropdown.svg");
+var _iconDropdownSvgDefault = parcelHelpers.interopDefault(_iconDropdownSvg);
+console.log((0, _iconRainWebpDefault.default));
 class GeoView {
     _parentEl = document.querySelector('.main-section');
     _data;
@@ -821,7 +846,7 @@ class GeoView {
                 </div>
 
                 <div class="temprature">
-                    <img src="./assets/images/icon-sunny.webp" alt="">
+                    <img src="${0, _iconSunnyPngDefault.default}" alt="">
                     <h1>${this._data.CurrentWhether.Tempreture}\xb0</h1>
                 </div>
                 </div>
@@ -848,59 +873,59 @@ class GeoView {
                 <h3>Daily forecast</h3>
                 <div class="days-Whether">
                     <div class="whether-days">
-                    <h3>Tue</h3>
-                    <img src="./assets/images/icon-rain.webp" alt="">
+                    <h3>${this._data.DailyWheather.date[0]}</h3>
+                    <img src="${0, _iconRainWebpDefault.default}" alt="">
                     <div class="days-percentege">
                         <h4>${this._data.DailyWheather.maxTempreture[0]}\xb0</h4>
                         <h4>${this._data.DailyWheather.minTempreture[0]}\xb0</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>Wed</h3>
-                    <img src="./assets/images/icon-drizzle.webp" alt="">
+                    <h3>${this._data.DailyWheather.date[1]}</h3>
+                    <img src="${0, _iconDrizzleWebpDefault.default}" alt="">
                     <div class="days-percentege">
                         <h4>${this._data.DailyWheather.maxTempreture[1]}\xb0</h4>
-                        <h4>${this._data.DailyWheather.minTempreture[0]}\xb0</h4>
+                        <h4>${this._data.DailyWheather.minTempreture[1]}\xb0</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>Thu</h3>
-                    <img src="./assets/images/icon-sunny.webp" alt="">
+                    <h3>${this._data.DailyWheather.date[2]}</h3>
+                    <img src="${0, _iconSunnyPngDefault.default}" alt="">
                     <div class="days-percentege">
-                        <h4>${this._data.DailyWheather.maxTempreture[0]}\xb0</h4>
-                        <h4>${this._data.DailyWheather.minTempreture[0]}\xb0</h4>
+                        <h4>${this._data.DailyWheather.maxTempreture[2]}\xb0</h4>
+                        <h4>${this._data.DailyWheather.minTempreture[2]}\xb0</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>Fri</h3>
-                    <img src="./assets/images/icon-partly-cloudy.webp" alt="">
+                    <h3>${this._data.DailyWheather.date[3]}</h3>
+                    <img src="${0, _iconPartlyCloudyWebpDefault.default}" alt="">
                     <div class="days-percentege">
-                        <h4>${this._data.DailyWheather.maxTempreture[0]}\xb0</h4>
-                        <h4>${this._data.DailyWheather.minTempreture[0]}\xb0</h4>
+                        <h4>${this._data.DailyWheather.maxTempreture[3]}\xb0</h4>
+                        <h4>${this._data.DailyWheather.minTempreture[3]}\xb0</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>Sat</h3>
-                    <img src="./assets/images/icon-storm.webp" alt="">
+                    <h3>${this._data.DailyWheather.date[4]}</h3>
+                    <img src="${0, _iconStormWebpDefault.default}" alt="">
                     <div class="days-percentege">
-                        <h4>${this._data.DailyWheather.maxTempreture[0]}\xb0</h4>
-                        <h4>${this._data.DailyWheather.minTempreture[0]}\xb0</h4>
+                        <h4>${this._data.DailyWheather.maxTempreture[4]}\xb0</h4>
+                        <h4>${this._data.DailyWheather.minTempreture[4]}\xb0</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>Sun</h3>
-                    <img src="./assets/images/icon-snow.webp" alt="">
+                    <h3>${this._data.DailyWheather.date[5]}</h3>
+                    <img src="${0, _iconSnowWebpDefault.default}" alt="">
                     <div class="days-percentege">
-                        <h4>${this._data.DailyWheather.maxTempreture[0]}\xb0</h4>
-                        <h4>${this._data.DailyWheather.minTempreture[0]}\xb0</h4>
+                        <h4>${this._data.DailyWheather.maxTempreture[5]}\xb0</h4>
+                        <h4>${this._data.DailyWheather.minTempreture[5]}\xb0</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>Mon</h3>
-                    <img src="./assets/images/icon-fog.webp" alt="">
+                    <h3>${this._data.DailyWheather.date[6]}</h3>
+                    <img src="${0, _iconFogWebpDefault.default}" alt="">
                     <div class="days-percentege">
-                        <h4>${this._data.DailyWheather.maxTempreture[0]}\xb0</h4>
-                        <h4>${this._data.DailyWheather.minTempreture[0]}\xb0</h4>
+                        <h4>${this._data.DailyWheather.maxTempreture[6]}\xb0</h4>
+                        <h4>${this._data.DailyWheather.minTempreture[6]}\xb0</h4>
                     </div>
                     </div>
                 </div>
@@ -914,7 +939,7 @@ class GeoView {
                     <div class="btn-days">
                     <button>
                         <p>Friday</p>
-                        <img src="./assets/images/icon-dropdown.svg" alt="" />
+                        <img src="${0, _iconDropdownSvgDefault.default}" alt="" />
                     </button>
                     </div>
                 </div>
@@ -931,28 +956,28 @@ class GeoView {
                 <div class="whether-Hours">
                 <div class="slide">
                     <div class="img-section">
-                    <img src="./assets/images/icon-partly-cloudy.webp" alt="">
+                    <img src="${0, _iconPartlyCloudyWebpDefault.default}" alt="">
                     <p>3 PM</p>
                     </div>
                     <h4>${this._data.HourlyWeather.tempreture[0]}\xb0</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="./assets/images/icon-overcast.webp" alt="">
+                    <img src="${0, _iconOvercastWebpDefault.default}" alt="">
                     <p>4 PM</p>
                     </div>
                     <h4>${this._data.HourlyWeather.tempreture[1]}\xb0</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="./assets/images/icon-sunny.webp" alt="">
+                    <img src="${0, _iconSunnyPngDefault.default}" alt="">
                     <p>5 PM</p>
                     </div>
                     <h4>${this._data.HourlyWeather.tempreture[2]}\xb0</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="./assets/images/icon-overcast.webp" alt="">
+                    <img src="${0, _iconOvercastWebpDefault.default}" alt="">
                     <p>6 PM</p>
                     </div>
                     <h4>${this._data.HourlyWeather.tempreture[3]}\xb0</h4>
@@ -960,28 +985,28 @@ class GeoView {
 
                 <div class="slide">
                     <div class="img-section">
-                    <img src="./assets/images/icon-rain.webp" alt="">
+                    <img src="${0, _iconRainWebpDefault.default}" alt="">
                     <p>7 PM</p>
                     </div>
                     <h4>${this._data.HourlyWeather.tempreture[4]}\xb0</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="./assets/images/icon-storm.webp" alt="">
+                    <img src="${0, _iconStormWebpDefault.default}" alt="">
                     <p>8 PM</p>
                     </div>
                     <h4>${this._data.HourlyWeather.tempreture[5]}\xb0</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="./assets/images/icon-fog.webp" alt="">
+                    <img src="${0, _iconFogWebpDefault.default}" alt="">
                     <p>9 PM</p>
                     </div>
                     <h4>${this._data.HourlyWeather.tempreture[6]}\xb0</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="./assets/images/icon-overcast.webp" alt="">
+                    <img src="${0, _iconOvercastWebpDefault.default}" alt="">
                     <p>10 PM</p>
                     </div>
                     <h4>${this._data.HourlyWeather.tempreture[7]}\xb0</h4>
@@ -994,6 +1019,6 @@ class GeoView {
 }
 exports.default = new GeoView();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["5HW5M","cCMpN"], "cCMpN", "parcelRequirec1d9", {})
+},{"../../images/icon-sunny.png":"9OrJ2","../../images/icon-rain.webp":"3ww8E","../../images/icon-drizzle.webp":"14onX","../../images/icon-partly-cloudy.webp":"ktIOQ","../../images/icon-storm.webp":"libqo","../../images/icon-snow.webp":"l2vyr","../../images/icon-fog.webp":"vpA6Z","../../images/icon-overcast.webp":"gpFfH","../../images/icon-dropdown.svg":"23l2s","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"9OrJ2":[function() {},{}],"3ww8E":[function() {},{}],"14onX":[function() {},{}],"ktIOQ":[function() {},{}],"libqo":[function() {},{}],"l2vyr":[function() {},{}],"vpA6Z":[function() {},{}],"gpFfH":[function() {},{}],"23l2s":[function() {},{}]},["5HW5M","cCMpN"], "cCMpN", "parcelRequirec1d9", {})
 
 //# sourceMappingURL=whether-App.e438c7cc.js.map

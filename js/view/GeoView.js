@@ -1,3 +1,15 @@
+import iconSunny from '../../images/icon-sunny.png';
+import iconRain from '../../images/icon-rain.webp';
+import iconDrizzle from '../../images/icon-drizzle.webp';
+import iconPartlyCloudy from '../../images/icon-partly-cloudy.webp';
+import iconStorm from '../../images/icon-storm.webp';
+import iconSnow from '../../images/icon-snow.webp';
+import iconFog from '../../images/icon-fog.webp';
+import iconOvercast from '../../images/icon-overcast.webp';
+import iconDropdown from '../../images/icon-dropdown.svg';
+
+console.log(iconRain);
+
 class GeoView{
     _parentEl= document.querySelector('.main-section')
     _data;
@@ -21,7 +33,7 @@ class GeoView{
                 </div>
 
                 <div class="temprature">
-                    <img src="./assets/images/icon-sunny.webp" alt="">
+                    <img src="${iconSunny}" alt="">
                     <h1>${this._data.CurrentWhether.Tempreture}°</h1>
                 </div>
                 </div>
@@ -48,59 +60,59 @@ class GeoView{
                 <h3>Daily forecast</h3>
                 <div class="days-Whether">
                     <div class="whether-days">
-                    <h3>Tue</h3>
-                    <img src="./assets/images/icon-rain.webp" alt="">
+                    <h3>${this._data.DailyWheather.date[0]}</h3>
+                    <img src="${iconRain}" alt="">
                     <div class="days-percentege">
                         <h4>${this._data.DailyWheather.maxTempreture[0]}°</h4>
                         <h4>${this._data.DailyWheather.minTempreture[0]}°</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>Wed</h3>
-                    <img src="./assets/images/icon-drizzle.webp" alt="">
+                    <h3>${this._data.DailyWheather.date[1]}</h3>
+                    <img src="${iconDrizzle}" alt="">
                     <div class="days-percentege">
                         <h4>${this._data.DailyWheather.maxTempreture[1]}°</h4>
-                        <h4>${this._data.DailyWheather.minTempreture[0]}°</h4>
+                        <h4>${this._data.DailyWheather.minTempreture[1]}°</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>Thu</h3>
-                    <img src="./assets/images/icon-sunny.webp" alt="">
+                    <h3>${this._data.DailyWheather.date[2]}</h3>
+                    <img src="${iconSunny}" alt="">
                     <div class="days-percentege">
-                        <h4>${this._data.DailyWheather.maxTempreture[0]}°</h4>
-                        <h4>${this._data.DailyWheather.minTempreture[0]}°</h4>
+                        <h4>${this._data.DailyWheather.maxTempreture[2]}°</h4>
+                        <h4>${this._data.DailyWheather.minTempreture[2]}°</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>Fri</h3>
-                    <img src="./assets/images/icon-partly-cloudy.webp" alt="">
+                    <h3>${this._data.DailyWheather.date[3]}</h3>
+                    <img src="${iconPartlyCloudy}" alt="">
                     <div class="days-percentege">
-                        <h4>${this._data.DailyWheather.maxTempreture[0]}°</h4>
-                        <h4>${this._data.DailyWheather.minTempreture[0]}°</h4>
+                        <h4>${this._data.DailyWheather.maxTempreture[3]}°</h4>
+                        <h4>${this._data.DailyWheather.minTempreture[3]}°</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>Sat</h3>
-                    <img src="./assets/images/icon-storm.webp" alt="">
+                    <h3>${this._data.DailyWheather.date[4]}</h3>
+                    <img src="${iconStorm}" alt="">
                     <div class="days-percentege">
-                        <h4>${this._data.DailyWheather.maxTempreture[0]}°</h4>
-                        <h4>${this._data.DailyWheather.minTempreture[0]}°</h4>
+                        <h4>${this._data.DailyWheather.maxTempreture[4]}°</h4>
+                        <h4>${this._data.DailyWheather.minTempreture[4]}°</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>Sun</h3>
-                    <img src="./assets/images/icon-snow.webp" alt="">
+                    <h3>${this._data.DailyWheather.date[5]}</h3>
+                    <img src="${iconSnow}" alt="">
                     <div class="days-percentege">
-                        <h4>${this._data.DailyWheather.maxTempreture[0]}°</h4>
-                        <h4>${this._data.DailyWheather.minTempreture[0]}°</h4>
+                        <h4>${this._data.DailyWheather.maxTempreture[5]}°</h4>
+                        <h4>${this._data.DailyWheather.minTempreture[5]}°</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>Mon</h3>
-                    <img src="./assets/images/icon-fog.webp" alt="">
+                    <h3>${this._data.DailyWheather.date[6]}</h3>
+                    <img src="${iconFog}" alt="">
                     <div class="days-percentege">
-                        <h4>${this._data.DailyWheather.maxTempreture[0]}°</h4>
-                        <h4>${this._data.DailyWheather.minTempreture[0]}°</h4>
+                        <h4>${this._data.DailyWheather.maxTempreture[6]}°</h4>
+                        <h4>${this._data.DailyWheather.minTempreture[6]}°</h4>
                     </div>
                     </div>
                 </div>
@@ -114,7 +126,7 @@ class GeoView{
                     <div class="btn-days">
                     <button>
                         <p>Friday</p>
-                        <img src="./assets/images/icon-dropdown.svg" alt="" />
+                        <img src="${iconDropdown}" alt="" />
                     </button>
                     </div>
                 </div>
@@ -131,28 +143,28 @@ class GeoView{
                 <div class="whether-Hours">
                 <div class="slide">
                     <div class="img-section">
-                    <img src="./assets/images/icon-partly-cloudy.webp" alt="">
+                    <img src="${iconPartlyCloudy}" alt="">
                     <p>3 PM</p>
                     </div>
                     <h4>${this._data.HourlyWeather.tempreture[0]}°</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="./assets/images/icon-overcast.webp" alt="">
+                    <img src="${iconOvercast}" alt="">
                     <p>4 PM</p>
                     </div>
                     <h4>${this._data.HourlyWeather.tempreture[1]}°</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="./assets/images/icon-sunny.webp" alt="">
+                    <img src="${iconSunny}" alt="">
                     <p>5 PM</p>
                     </div>
                     <h4>${this._data.HourlyWeather.tempreture[2]}°</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="./assets/images/icon-overcast.webp" alt="">
+                    <img src="${iconOvercast}" alt="">
                     <p>6 PM</p>
                     </div>
                     <h4>${this._data.HourlyWeather.tempreture[3]}°</h4>
@@ -160,28 +172,28 @@ class GeoView{
 
                 <div class="slide">
                     <div class="img-section">
-                    <img src="./assets/images/icon-rain.webp" alt="">
+                    <img src="${iconRain}" alt="">
                     <p>7 PM</p>
                     </div>
                     <h4>${this._data.HourlyWeather.tempreture[4]}°</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="./assets/images/icon-storm.webp" alt="">
+                    <img src="${iconStorm}" alt="">
                     <p>8 PM</p>
                     </div>
                     <h4>${this._data.HourlyWeather.tempreture[5]}°</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="./assets/images/icon-fog.webp" alt="">
+                    <img src="${iconFog}" alt="">
                     <p>9 PM</p>
                     </div>
                     <h4>${this._data.HourlyWeather.tempreture[6]}°</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="./assets/images/icon-overcast.webp" alt="">
+                    <img src="${iconOvercast}" alt="">
                     <p>10 PM</p>
                     </div>
                     <h4>${this._data.HourlyWeather.tempreture[7]}°</h4>

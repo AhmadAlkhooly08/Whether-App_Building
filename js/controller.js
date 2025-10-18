@@ -9,6 +9,7 @@ const ControlLocation = async function(){
             const { latitude, longitude } = position.coords;
             await model.geoLocation(latitude,longitude)
             GeoView.render(model.whetherData)
+            
         }catch(err){
             console.log(err);
         }
