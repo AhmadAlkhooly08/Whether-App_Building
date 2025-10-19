@@ -3,7 +3,7 @@ export const whetherData = {}
 
 export const geoLocation = async function(lat,long){
     try{
-        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=auto`);
+        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=auto&forecast_hours=12`);
         const data = await res.json();
         console.log(data); 
         data.daily.time = data.daily.time.map(el=>{
@@ -24,11 +24,18 @@ export const geoLocation = async function(lat,long){
             date: data.daily.time,
         }
         whetherData.HourlyWeather = {
-            tempreture: data.hourly.temperature_2m.slice(0,8).map(el=> Math.trunc(el)),
-            time: data.hourly.time.slice(0,8),
+            tempreture: data.hourly.temperature_2m.slice(1,9).map(el=> Math.trunc(el)),
+            time: data.hourly.time.slice(1,9).map(el=> el.slice(11,el.length -3)).map(el =>{
+                if(el > 12) return el - 12
+                if(el == '00') return 12
+                else return el
+            }),
+            meridiem: data.hourly.time.slice(1,9).map(el=> el.slice(11,el.length -3)).map(el=>{
+                if(el >= 12) return 'PM'
+                if(el < 12 && el >= 0) return 'AM'
+            })
         }
         console.log(whetherData);
-        
     }catch(err){
         console.log(err);
     }

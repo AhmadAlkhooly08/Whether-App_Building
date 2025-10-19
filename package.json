@@ -5,11 +5,16 @@
     "start": "parcel index.html",
     "build": "parcel build index.html"
   },
+  "staticFiles": {
+    "staticPath": "public",
+    "watcherGlob": "**"
+  },  
   "keywords": [],
   "author": "Ahmad",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "parcel": "^2.16.0"
+    "parcel": "^2.16.0",
+    "parcel-plugin-static-files-copy": "^2.6.0"
   }
 }

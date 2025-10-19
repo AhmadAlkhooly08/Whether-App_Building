@@ -137,7 +137,7 @@ hr{
     border: none;
     box-shadow: none;
     border-radius: 5px;
-    background-image: url(./images/icon-search.svg);
+    background-image: url(./public/images/icon-search.svg);
     background-repeat: no-repeat;
     background-position: 20px 13px;
     font-size: 17px;
@@ -220,7 +220,7 @@ hr{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-image: url(./images/bg-today-large.svg);
+    background-image: url(./public/images/bg-today-large.svg);
     background-repeat: no-repeat;
     width: 110%;
     border-radius: 30px;
