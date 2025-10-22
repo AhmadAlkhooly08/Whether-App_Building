@@ -1,4 +1,4 @@
-// import iconSunny from '../../images/icon-sunny.png';
+import iconSunny from '../../public/images/icon-sunny.webp';
 // import iconRain from '../../images/icon-rain.webp';
 // import iconDrizzle from '../../images/icon-drizzle.webp';
 // import iconPartlyCloudy from '../../images/icon-partly-cloudy.webp';
@@ -22,10 +22,14 @@ class GeoView{
     clear(){
         this._parentEl.innerHTML = '';
     }
+
+    loading(){
+        
+    }
     _generateMarkup(){
-        const curWhether = this._data.CurrentWhether;
-        const dayWhether = this._data.DailyWheather;
-        const hourlyWhether = this._data.HourlyWeather;
+        const curWhether = this._data.geoLocation.CurrentWhether;
+        const dayWhether = this._data.geoLocation.DailyWheather;
+        const hourlyWhether = this._data.geoLocation.HourlyWeather;
         return`
             <div class="first-section">
                 <div class="bg-today">
@@ -35,7 +39,7 @@ class GeoView{
                 </div>
 
                 <div class="temprature">
-                    <img src="./public/images/icon-sunny.png" alt="">
+                    <img src="${iconSunny}" alt="">
                     <h1>${curWhether.Tempreture}°</h1>
                 </div>
                 </div>
@@ -111,7 +115,7 @@ class GeoView{
                     </div>
                     <div class="whether-days">
                     <h3>${dayWhether.date[6]}</h3>
-                    <img src="/images/icon-fog.webp" alt="">
+                    <img src="public/images/icon-fog.webp" alt="">
                     <div class="days-percentege">
                         <h4>${dayWhether.maxTempreture[6]}°</h4>
                         <h4>${dayWhether.minTempreture[6]}°</h4>
@@ -127,8 +131,8 @@ class GeoView{
                     <h1>Hourly forecast</h1>
                     <div class="btn-days">
                     <button>
-                        <p>Friday</p>
-                        <img src="/images/icon-dropdown.svg" alt="" />
+                        <p>${dayWhether.date[0]}</p>
+                        <img src="public/images/icon-dropdown.svg" alt="" />
                     </button>
                     </div>
                 </div>

@@ -718,7 +718,10 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _modelJs = require("./model.js");
 var _geoViewJs = require("./view/GeoView.js");
 var _geoViewJsDefault = parcelHelpers.interopDefault(_geoViewJs);
+var _loadingViewJs = require("./view/loadingView.js");
+var _loadingViewJsDefault = parcelHelpers.interopDefault(_loadingViewJs);
 const ControlLocation = async function() {
+    (0, _loadingViewJsDefault.default).render();
     if (!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(async function(position) {
         try {
@@ -732,53 +735,86 @@ const ControlLocation = async function() {
 };
 ControlLocation();
 
-},{"./model.js":"6YxfE","./view/GeoView.js":"5uBhZ","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"6YxfE":[function(require,module,exports,__globalThis) {
+},{"./model.js":"6YxfE","./view/GeoView.js":"5uBhZ","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./view/loadingView.js":"hRrkw"}],"6YxfE":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "whetherData", ()=>whetherData);
 parcelHelpers.export(exports, "geoLocation", ()=>geoLocation);
-const whetherData = {};
+const whetherData = {
+    geoLocation: {},
+    SearchedData: {}
+};
+const add_Current = function(data) {
+    return {
+        apparentTempreture: Math.trunc(data.current.apparent_temperature),
+        precipitation: data.current.precipitation,
+        windSpeed: Math.trunc(data.current.wind_speed_10m),
+        Tempreture: Math.trunc(data.current.temperature_2m),
+        humidity: Math.trunc(data.current.relative_humidity_2m),
+        location: data.timezone
+    };
+};
+const add_Daily = function(data) {
+    return {
+        maxTempreture: data.daily.temperature_2m_max.map((el)=>Math.trunc(el)),
+        minTempreture: data.daily.temperature_2m_min.map((el)=>Math.trunc(el)),
+        date: data.daily.time
+    };
+};
+const add_Hourly = function(data) {
+    return {
+        tempreture: data.hourly.temperature_2m.slice(1, 9).map((el)=>Math.trunc(el)),
+        time: data.hourly.time.slice(1, 9).map((el)=>el.slice(11, el.length - 3)).map((el)=>{
+            if (el > 12) return el - 12;
+            if (el == '00') return 12;
+            else return el;
+        }),
+        meridiem: data.hourly.time.slice(1, 9).map((el)=>el.slice(11, el.length - 3)).map((el)=>{
+            if (el >= 12) return 'PM';
+            if (el < 12 && el >= 0) return 'AM';
+        })
+    };
+};
 const geoLocation = async function(lat, long) {
     try {
         const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=auto&forecast_hours=12`);
         const data = await res.json();
-        console.log(data);
         data.daily.time = data.daily.time.map((el)=>{
             const date = new Date(el);
             return date.toLocaleDateString('en-US', {
                 weekday: 'short'
             });
         });
-        whetherData.CurrentWhether = {
-            apparentTempreture: Math.trunc(data.current.apparent_temperature),
-            precipitation: data.current.precipitation,
-            windSpeed: Math.trunc(data.current.wind_speed_10m),
-            Tempreture: Math.trunc(data.current.temperature_2m),
-            humidity: Math.trunc(data.current.relative_humidity_2m),
-            location: data.timezone
+        whetherData.geoLocation.CurrentWhether = add_Current(data);
+        whetherData.geoLocation.DailyWheather = add_Daily(data);
+        whetherData.geoLocation.HourlyWeather = add_Hourly(data);
+    } catch (err) {
+        console.log(err);
+    }
+};
+const Searching = async function(Search) {
+    try {
+        const res = await fetch('https://geocoding-api.open-meteo.com/v1/search?name=tokyo');
+        const data = await res.json();
+        const { results } = data;
+        const SearchedCountry = {
+            name: `${results[0].name}, ${results[0].country}`,
+            latitude: results[0].latitude,
+            longitude: results[0].longitude,
+            timezone: results[0].timezone
         };
-        whetherData.DailyWheather = {
-            maxTempreture: data.daily.temperature_2m_max.map((el)=>Math.trunc(el)),
-            minTempreture: data.daily.temperature_2m_min.map((el)=>Math.trunc(el)),
-            date: data.daily.time
-        };
-        whetherData.HourlyWeather = {
-            tempreture: data.hourly.temperature_2m.slice(1, 9).map((el)=>Math.trunc(el)),
-            time: data.hourly.time.slice(1, 9).map((el)=>el.slice(11, el.length - 3)).map((el)=>{
-                if (el > 12) return el - 12;
-                if (el == '00') return 12;
-                else return el;
-            }),
-            meridiem: data.hourly.time.slice(1, 9).map((el)=>el.slice(11, el.length - 3)).map((el)=>{
-                if (el >= 12) return 'PM';
-                if (el < 12 && el >= 0) return 'AM';
-            })
-        };
+        const res2 = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${SearchedCountry.latitude}&longitude=${SearchedCountry.longitude}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=${SearchedCountry.timezone}&forecast_hours=12`);
+        const data2 = await res2.json();
+        whetherData.SearchedData.CurrentWhether = add_Current(data2);
+        whetherData.SearchedData.DailyWheather = add_Daily(data2);
+        whetherData.SearchedData.HourlyWeather = add_Hourly(data2);
+        whetherData.SearchedData.name = SearchedCountry.name;
         console.log(whetherData);
     } catch (err) {
         console.log(err);
     }
 };
+Searching();
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"jnFvT":[function(require,module,exports,__globalThis) {
 exports.interopDefault = function(a) {
@@ -811,7 +847,10 @@ exports.export = function(dest, destName, get) {
 };
 
 },{}],"5uBhZ":[function(require,module,exports,__globalThis) {
-// import iconSunny from '../../images/icon-sunny.png';
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _iconSunnyWebp = require("../../public/images/icon-sunny.webp");
+var _iconSunnyWebpDefault = parcelHelpers.interopDefault(_iconSunnyWebp);
 // import iconRain from '../../images/icon-rain.webp';
 // import iconDrizzle from '../../images/icon-drizzle.webp';
 // import iconPartlyCloudy from '../../images/icon-partly-cloudy.webp';
@@ -820,8 +859,6 @@ exports.export = function(dest, destName, get) {
 // import iconFog from '../../images/icon-fog.webp';
 // import iconOvercast from '../../images/icon-overcast.webp';
 // import iconDropdown from '../../images/icon-dropdown.svg';
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
 class GeoView {
     _parentEl = document.querySelector('.main-section');
     _data;
@@ -834,10 +871,11 @@ class GeoView {
     clear() {
         this._parentEl.innerHTML = '';
     }
+    loading() {}
     _generateMarkup() {
-        const curWhether = this._data.CurrentWhether;
-        const dayWhether = this._data.DailyWheather;
-        const hourlyWhether = this._data.HourlyWeather;
+        const curWhether = this._data.geoLocation.CurrentWhether;
+        const dayWhether = this._data.geoLocation.DailyWheather;
+        const hourlyWhether = this._data.geoLocation.HourlyWeather;
         return `
             <div class="first-section">
                 <div class="bg-today">
@@ -847,7 +885,7 @@ class GeoView {
                 </div>
 
                 <div class="temprature">
-                    <img src="./public/images/icon-sunny.png" alt="">
+                    <img src="${0, _iconSunnyWebpDefault.default}" alt="">
                     <h1>${curWhether.Tempreture}\xb0</h1>
                 </div>
                 </div>
@@ -923,7 +961,7 @@ class GeoView {
                     </div>
                     <div class="whether-days">
                     <h3>${dayWhether.date[6]}</h3>
-                    <img src="/images/icon-fog.webp" alt="">
+                    <img src="public/images/icon-fog.webp" alt="">
                     <div class="days-percentege">
                         <h4>${dayWhether.maxTempreture[6]}\xb0</h4>
                         <h4>${dayWhether.minTempreture[6]}\xb0</h4>
@@ -939,8 +977,8 @@ class GeoView {
                     <h1>Hourly forecast</h1>
                     <div class="btn-days">
                     <button>
-                        <p>Friday</p>
-                        <img src="/images/icon-dropdown.svg" alt="" />
+                        <p>${dayWhether.date[0]}</p>
+                        <img src="public/images/icon-dropdown.svg" alt="" />
                     </button>
                     </div>
                 </div>
@@ -1019,6 +1057,118 @@ class GeoView {
     }
 }
 exports.default = new GeoView();
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","../../public/images/icon-sunny.webp":"3RKa3"}],"3RKa3":[function() {},{}],"hRrkw":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class LoadingView {
+    _parentEl = document.querySelector('.main-section');
+    render() {
+        this._parentEl.innerHTML = '';
+        const markup = this._view();
+        this._parentEl.insertAdjacentHTML("afterbegin", markup);
+    }
+    _view() {
+        return `
+            <div class="first-section">
+                <div class="loading loading-1">
+                <div class="loading-inner">
+                    <div class="dots">
+                    <div class="dot dot-1"></div>
+                    <div class="dot dot-2"></div>
+                    <div class="dot dot-3"></div>
+                    </div>
+                    <h5>loading...</h5>
+                </div>
+                </div>
+
+                <div class="prediction loading-prediction">
+                    <div class="square Feels-Like">
+                    <h4>Feels Like</h4>
+                    <h1>-</h1>
+                    </div>
+                    <div class="square Humidity">
+                    <h4>Humidity</h4>
+                    <h1>-</h1>
+                    </div>
+                    <div class="square Wind">
+                    <h4>Wind</h4>
+                    <h1>-</h1>
+                    </div>
+                    <div class="square precipitation">
+                    <h4>precipitation</h4>
+                    <h1>-</h1>
+                    </div>
+                </div>
+
+                <div class=" loading-forecast">
+                <h3>Daily forecast</h3>
+                <div class="days-Whether">
+                    <div class="loading-whether-days">
+                    </div>
+                    <div class="loading-whether-days">
+                    </div>
+                    <div class="loading-whether-days">
+                    </div>
+                    <div class="loading-whether-days">
+                    </div>
+                    <div class="loading-whether-days">
+                    </div>
+                    <div class="loading-whether-days">
+                    </div>
+                    <div class="loading-whether-days">
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="second-section">
+                <div class="dropDown-Days">
+                <div class="row">
+                    <h1>Hourly forecast</h1>
+                    <div class="btn-days">
+                    <button>
+                        <p>-</p>
+                        <img src="public/images/icon-dropdown.svg" alt="" />
+                    </button>
+                    </div>
+                </div>
+                <div class="days-select hidden">
+                    <button>Monday</button>
+                    <button>Tuesday</button>
+                    <button>Wednesday</button>
+                    <button>Thursday</button>
+                    <button class="active">Friday</button>
+                    <button>saturday</button>
+                    <button>sunday</button>
+                </div>
+                </div>
+                <div class="whether-Hours">
+                <div class="slide loading-hourly">
+                </div>
+                <div class="slide loading-hourly">
+                </div>
+                <div class="slide loading-hourly">
+                </div>
+                <div class="slide loading-hourly">
+                </div>
+
+                <div class="slide loading-hourly">
+                </div>
+                <div class="slide loading-hourly">
+                </div>
+                <div class="slide loading-hourly">
+                </div>
+                <div class="slide loading-hourly">
+                </div>
+
+                </div>
+            </div>
+
+        `;
+    }
+}
+exports.default = new LoadingView;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["5HW5M","cCMpN"], "cCMpN", "parcelRequirec1d9", {})
 

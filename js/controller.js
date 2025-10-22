@@ -1,8 +1,9 @@
 import * as model from './model.js'
 import GeoView from './view/GeoView.js'
-
+import loadingView from './view/loadingView.js';
 
 const ControlLocation = async function(){
+    loadingView.render();
     if(!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(async function(position){
         try{

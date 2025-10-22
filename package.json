@@ -5,10 +5,10 @@
     "start": "parcel index.html",
     "build": "parcel build index.html"
   },
-  "staticFiles": {
-    "staticPath": "public",
-    "watcherGlob": "**"
-  },  
+   "staticFiles": {
+        "staticPath": "src",
+        "excludeGlob": "**/!(locales)/*.+(!(txt)|!(json))"
+    },
   "keywords": [],
   "author": "Ahmad",
   "license": "ISC",
