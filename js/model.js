@@ -69,11 +69,11 @@ const Searching = async function(Search){
         }
 
         const res2 = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${SearchedCountry.latitude}&longitude=${SearchedCountry.longitude}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=${SearchedCountry.timezone}&forecast_hours=12`);
-        const data2 = await res2.json();
+        const resault = await res2.json();
 
-        whetherData.SearchedData.CurrentWhether = add_Current(data2)
-        whetherData.SearchedData.DailyWheather =  add_Daily(data2)
-        whetherData.SearchedData.HourlyWeather = add_Hourly(data2)
+        whetherData.SearchedData.CurrentWhether = add_Current(resault)
+        whetherData.SearchedData.DailyWheather =  add_Daily(resault)
+        whetherData.SearchedData.HourlyWeather = add_Hourly(resault)
 
         whetherData.SearchedData.name =  SearchedCountry.name ; 
         console.log(whetherData);

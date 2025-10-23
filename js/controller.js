@@ -1,7 +1,7 @@
 import * as model from './model.js'
 import GeoView from './view/GeoView.js'
 import loadingView from './view/loadingView.js';
-
+import SearchView from './view/SearchView.js';
 const ControlLocation = async function(){
     loadingView.render();
     if(!navigator.geolocation) return;
@@ -17,4 +17,11 @@ const ControlLocation = async function(){
     })
 }
 
+const controlSearch = async function(){
+    try{
+        
+    }catch(err){
+
+    }
+}
 ControlLocation();

@@ -720,6 +720,8 @@ var _geoViewJs = require("./view/GeoView.js");
 var _geoViewJsDefault = parcelHelpers.interopDefault(_geoViewJs);
 var _loadingViewJs = require("./view/loadingView.js");
 var _loadingViewJsDefault = parcelHelpers.interopDefault(_loadingViewJs);
+var _searchViewJs = require("./view/SearchView.js");
+var _searchViewJsDefault = parcelHelpers.interopDefault(_searchViewJs);
 const ControlLocation = async function() {
     (0, _loadingViewJsDefault.default).render();
     if (!navigator.geolocation) return;
@@ -733,9 +735,10 @@ const ControlLocation = async function() {
         }
     });
 };
+const controlSearch = async function() {};
 ControlLocation();
 
-},{"./model.js":"6YxfE","./view/GeoView.js":"5uBhZ","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./view/loadingView.js":"hRrkw"}],"6YxfE":[function(require,module,exports,__globalThis) {
+},{"./model.js":"6YxfE","./view/GeoView.js":"5uBhZ","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./view/loadingView.js":"hRrkw","./view/SearchView.js":"22d9K"}],"6YxfE":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "whetherData", ()=>whetherData);
@@ -804,10 +807,10 @@ const Searching = async function(Search) {
             timezone: results[0].timezone
         };
         const res2 = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${SearchedCountry.latitude}&longitude=${SearchedCountry.longitude}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=${SearchedCountry.timezone}&forecast_hours=12`);
-        const data2 = await res2.json();
-        whetherData.SearchedData.CurrentWhether = add_Current(data2);
-        whetherData.SearchedData.DailyWheather = add_Daily(data2);
-        whetherData.SearchedData.HourlyWeather = add_Hourly(data2);
+        const resault = await res2.json();
+        whetherData.SearchedData.CurrentWhether = add_Current(resault);
+        whetherData.SearchedData.DailyWheather = add_Daily(resault);
+        whetherData.SearchedData.HourlyWeather = add_Hourly(resault);
         whetherData.SearchedData.name = SearchedCountry.name;
         console.log(whetherData);
     } catch (err) {
@@ -1169,6 +1172,23 @@ class LoadingView {
     }
 }
 exports.default = new LoadingView;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"22d9K":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class SearchView {
+    _SearchBar = document.querySelector('.form');
+    handler(handel) {
+        this._SearchBar.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const input = e.target.querySelector('.text-field');
+            const getValue = input.value;
+            console.log(getValue);
+            handel(getValue);
+        });
+    }
+}
+exports.default = new SearchView();
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["5HW5M","cCMpN"], "cCMpN", "parcelRequirec1d9", {})
 
