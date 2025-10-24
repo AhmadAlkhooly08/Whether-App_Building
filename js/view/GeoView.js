@@ -23,19 +23,16 @@ class GeoView{
         this._parentEl.innerHTML = '';
     }
 
-    loading(){
-        
-    }
     _generateMarkup(){
-        const curWhether = this._data.geoLocation.CurrentWhether;
-        const dayWhether = this._data.geoLocation.DailyWheather;
-        const hourlyWhether = this._data.geoLocation.HourlyWeather;
+        const curWhether = this._data.CurrentWhether;
+        const dayWhether = this._data.DailyWheather;
+        const hourlyWhether = this._data.HourlyWeather;
         return`
             <div class="first-section">
                 <div class="bg-today">
                 <div class="location">
-                    <h2>Istanbul Turkey</h2>
-                    <h4>Friday, oct 3 , 2025</h4>
+                    <h2>${this._data.name ? this._data.name : curWhether.location}</h2>
+                    <h4>${curWhether.date}</h4>
                 </div>
 
                 <div class="temprature">

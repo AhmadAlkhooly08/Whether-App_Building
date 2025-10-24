@@ -9,7 +9,7 @@ const ControlLocation = async function(){
         try{
             const { latitude, longitude } = position.coords;
             await model.geoLocation(latitude,longitude)
-            GeoView.render(model.whetherData)
+            GeoView.render(model.whetherData.geoLocation)
             
         }catch(err){
             console.log(err);
@@ -17,11 +17,19 @@ const ControlLocation = async function(){
     })
 }
 
-const controlSearch = async function(){
+const controlSearch = async function(value){
     try{
-        
-    }catch(err){
+        loadingView.render();
 
+        await model.Searching(value)
+        GeoView.render(model.whetherData.SearchedData)
+    }catch(err){
+        console.log(err);
     }
 }
-ControlLocation();
+
+const input = function(){
+    ControlLocation();
+    SearchView.handler(controlSearch)
+}
+input();

@@ -729,24 +729,47 @@ const ControlLocation = async function() {
         try {
             const { latitude, longitude } = position.coords;
             await _modelJs.geoLocation(latitude, longitude);
-            (0, _geoViewJsDefault.default).render(_modelJs.whetherData);
+            (0, _geoViewJsDefault.default).render(_modelJs.whetherData.geoLocation);
         } catch (err) {
             console.log(err);
         }
     });
 };
-const controlSearch = async function() {};
-ControlLocation();
+const controlSearch = async function(value) {
+    try {
+        (0, _loadingViewJsDefault.default).render();
+        await _modelJs.Searching(value);
+        (0, _geoViewJsDefault.default).render(_modelJs.whetherData.SearchedData);
+    } catch (err) {
+        console.log(err);
+    }
+};
+const input = function() {
+    ControlLocation();
+    (0, _searchViewJsDefault.default).handler(controlSearch);
+};
+input();
 
-},{"./model.js":"6YxfE","./view/GeoView.js":"5uBhZ","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./view/loadingView.js":"hRrkw","./view/SearchView.js":"22d9K"}],"6YxfE":[function(require,module,exports,__globalThis) {
+},{"./model.js":"6YxfE","./view/GeoView.js":"5uBhZ","./view/loadingView.js":"hRrkw","./view/SearchView.js":"22d9K","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"6YxfE":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "whetherData", ()=>whetherData);
 parcelHelpers.export(exports, "geoLocation", ()=>geoLocation);
+parcelHelpers.export(exports, "Searching", ()=>Searching);
 const whetherData = {
     geoLocation: {},
     SearchedData: {}
 };
+const date = new Date();
+let day = date.toLocaleDateString('en-US', {
+    weekday: 'short'
+});
+let month = date.toLocaleDateString('en-US', {
+    weekday: 'short'
+});
+let dat = date.getDate();
+let year = date.getFullYear();
+console.log(`${day}, ${month} ${dat}, ${year}`);
 const add_Current = function(data) {
     return {
         apparentTempreture: Math.trunc(data.current.apparent_temperature),
@@ -754,7 +777,8 @@ const add_Current = function(data) {
         windSpeed: Math.trunc(data.current.wind_speed_10m),
         Tempreture: Math.trunc(data.current.temperature_2m),
         humidity: Math.trunc(data.current.relative_humidity_2m),
-        location: data.timezone
+        location: data.timezone.split('/').pop(),
+        date: `${day}, ${month} ${dat}, ${year}`
     };
 };
 const add_Daily = function(data) {
@@ -778,36 +802,42 @@ const add_Hourly = function(data) {
         })
     };
 };
+const editDates = function(data) {
+    data.daily.time = data.daily.time.map((el)=>{
+        const date = new Date(el);
+        return date.toLocaleDateString('en-US', {
+            weekday: 'short'
+        });
+    });
+};
 const geoLocation = async function(lat, long) {
     try {
         const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=auto&forecast_hours=12`);
         const data = await res.json();
-        data.daily.time = data.daily.time.map((el)=>{
-            const date = new Date(el);
-            return date.toLocaleDateString('en-US', {
-                weekday: 'short'
-            });
-        });
+        editDates(data);
         whetherData.geoLocation.CurrentWhether = add_Current(data);
         whetherData.geoLocation.DailyWheather = add_Daily(data);
         whetherData.geoLocation.HourlyWeather = add_Hourly(data);
+        console.log(whetherData);
     } catch (err) {
         console.log(err);
     }
 };
 const Searching = async function(Search) {
     try {
-        const res = await fetch('https://geocoding-api.open-meteo.com/v1/search?name=tokyo');
+        const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${Search}`);
         const data = await res.json();
         const { results } = data;
+        console.log(results);
         const SearchedCountry = {
-            name: `${results[0].name}, ${results[0].country}`,
-            latitude: results[0].latitude,
-            longitude: results[0].longitude,
-            timezone: results[0].timezone
+            name: `${results[0]?.name}, ${results[0].country ? results[0].country : ''}`,
+            latitude: results[0]?.latitude,
+            longitude: results[0]?.longitude,
+            timezone: results[0]?.timezone
         };
         const res2 = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${SearchedCountry.latitude}&longitude=${SearchedCountry.longitude}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=${SearchedCountry.timezone}&forecast_hours=12`);
         const resault = await res2.json();
+        editDates(resault);
         whetherData.SearchedData.CurrentWhether = add_Current(resault);
         whetherData.SearchedData.DailyWheather = add_Daily(resault);
         whetherData.SearchedData.HourlyWeather = add_Hourly(resault);
@@ -874,17 +904,16 @@ class GeoView {
     clear() {
         this._parentEl.innerHTML = '';
     }
-    loading() {}
     _generateMarkup() {
-        const curWhether = this._data.geoLocation.CurrentWhether;
-        const dayWhether = this._data.geoLocation.DailyWheather;
-        const hourlyWhether = this._data.geoLocation.HourlyWeather;
+        const curWhether = this._data.CurrentWhether;
+        const dayWhether = this._data.DailyWheather;
+        const hourlyWhether = this._data.HourlyWeather;
         return `
             <div class="first-section">
                 <div class="bg-today">
                 <div class="location">
-                    <h2>Istanbul Turkey</h2>
-                    <h4>Friday, oct 3 , 2025</h4>
+                    <h2>${this._data.name ? this._data.name : curWhether.location}</h2>
+                    <h4>${curWhether.date}</h4>
                 </div>
 
                 <div class="temprature">
@@ -1061,7 +1090,7 @@ class GeoView {
 }
 exports.default = new GeoView();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","../../public/images/icon-sunny.webp":"3RKa3"}],"3RKa3":[function() {},{}],"hRrkw":[function(require,module,exports,__globalThis) {
+},{"../../public/images/icon-sunny.webp":"3RKa3","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"3RKa3":[function() {},{}],"hRrkw":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class LoadingView {
@@ -1179,12 +1208,14 @@ parcelHelpers.defineInteropFlag(exports);
 class SearchView {
     _SearchBar = document.querySelector('.form');
     handler(handel) {
-        this._SearchBar.addEventListener('submit', function(e) {
+        this._SearchBar.addEventListener('submit', (e)=>{
             e.preventDefault();
             const input = e.target.querySelector('.text-field');
             const getValue = input.value;
             console.log(getValue);
+            if (!getValue) return;
             handel(getValue);
+            input.value = '';
         });
     }
 }
