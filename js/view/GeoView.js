@@ -25,14 +25,14 @@ class GeoView{
 
     _generateMarkup(){
         const curWhether = this._data.CurrentWhether;
-        const dayWhether = this._data.DailyWheather;
-        const hourlyWhether = this._data.HourlyWeather;
+        const dayWhether = this._data.DailyWhether;
+        const hourlyWhether = this._data.HourlyWether;
         return`
             <div class="first-section">
                 <div class="bg-today">
                 <div class="location">
                     <h2>${this._data.name ? this._data.name : curWhether.location}</h2>
-                    <h4>${curWhether.date}</h4>
+                    <h4>${this._data.date}</h4>
                 </div>
 
                 <div class="temprature">

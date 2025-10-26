@@ -536,4 +536,13 @@ hr {
   display: flex;
   box-shadow: 0 7px 29px #64646f33;
 }
+
+.error {
+  justify-content: center;
+  display: flex;
+}
+
+.error h1 {
+  color: #fff;
+}
 /*# sourceMappingURL=whether-App.3a01df49.css.map */

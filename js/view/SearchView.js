@@ -1,5 +1,6 @@
 
 class SearchView{
+    _parentEl = document.querySelector('.main-section')
     _SearchBar = document.querySelector('.form');
     handler(handel){
         this._SearchBar.addEventListener('submit',(e) =>{
@@ -13,6 +14,17 @@ class SearchView{
             input.value = '';
 
         })
+    }
+
+    renderError(){
+        const markup = `
+            <div class="error">
+                <h1>No search result found! 🚫</h1>
+            </div>
+        `;
+
+        this._parentEl.innerHTML = '';
+        this._parentEl.insertAdjacentHTML("afterbegin",markup)
     }
 }
 

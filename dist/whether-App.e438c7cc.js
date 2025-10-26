@@ -741,6 +741,7 @@ const controlSearch = async function(value) {
         await _modelJs.Searching(value);
         (0, _geoViewJsDefault.default).render(_modelJs.whetherData.SearchedData);
     } catch (err) {
+        (0, _searchViewJsDefault.default).renderError();
         console.log(err);
     }
 };
@@ -750,7 +751,7 @@ const input = function() {
 };
 input();
 
-},{"./model.js":"6YxfE","./view/GeoView.js":"5uBhZ","./view/loadingView.js":"hRrkw","./view/SearchView.js":"22d9K","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"6YxfE":[function(require,module,exports,__globalThis) {
+},{"./model.js":"6YxfE","./view/GeoView.js":"5uBhZ","./view/SearchView.js":"22d9K","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./view/loadingView.js":"hRrkw"}],"6YxfE":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "whetherData", ()=>whetherData);
@@ -760,35 +761,24 @@ const whetherData = {
     geoLocation: {},
     SearchedData: {}
 };
-const date = new Date();
-let day = date.toLocaleDateString('en-US', {
-    weekday: 'short'
-});
-let month = date.toLocaleDateString('en-US', {
-    weekday: 'short'
-});
-let dat = date.getDate();
-let year = date.getFullYear();
-console.log(`${day}, ${month} ${dat}, ${year}`);
-const add_Current = function(data) {
+const add_Current_Whether = function(data) {
     return {
-        apparentTempreture: Math.trunc(data.current.apparent_temperature),
+        apparentTempreture: Math.trunc(data.current?.apparent_temperature),
         precipitation: data.current.precipitation,
         windSpeed: Math.trunc(data.current.wind_speed_10m),
         Tempreture: Math.trunc(data.current.temperature_2m),
         humidity: Math.trunc(data.current.relative_humidity_2m),
-        location: data.timezone.split('/').pop(),
-        date: `${day}, ${month} ${dat}, ${year}`
+        location: data.timezone.split('/').pop()
     };
 };
-const add_Daily = function(data) {
+const add_Daily_Whether = function(data) {
     return {
         maxTempreture: data.daily.temperature_2m_max.map((el)=>Math.trunc(el)),
         minTempreture: data.daily.temperature_2m_min.map((el)=>Math.trunc(el)),
         date: data.daily.time
     };
 };
-const add_Hourly = function(data) {
+const add_Hourly_whether = function(data) {
     return {
         tempreture: data.hourly.temperature_2m.slice(1, 9).map((el)=>Math.trunc(el)),
         time: data.hourly.time.slice(1, 9).map((el)=>el.slice(11, el.length - 3)).map((el)=>{
@@ -802,22 +792,38 @@ const add_Hourly = function(data) {
         })
     };
 };
+const add_date_country = function(timezone) {
+    const date = new Date();
+    const all_date = {
+        weekday: 'long',
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        timeZone: timezone
+    };
+    return date.toLocaleDateString('en-Us', all_date);
+};
 const editDates = function(data) {
+    const tz = data.timezone;
+    const ftr = new Intl.DateTimeFormat('en-Us', {
+        'weekday': 'short',
+        timeZone: tz
+    });
     data.daily.time = data.daily.time.map((el)=>{
-        const date = new Date(el);
-        return date.toLocaleDateString('en-US', {
-            weekday: 'short'
-        });
+        const date = new Date(el + 'T00:00:00');
+        return ftr.format(date);
     });
 };
 const geoLocation = async function(lat, long) {
     try {
-        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=auto&forecast_hours=12`);
+        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=auto`);
         const data = await res.json();
+        console.log(data);
         editDates(data);
-        whetherData.geoLocation.CurrentWhether = add_Current(data);
-        whetherData.geoLocation.DailyWheather = add_Daily(data);
-        whetherData.geoLocation.HourlyWeather = add_Hourly(data);
+        whetherData.geoLocation.CurrentWhether = add_Current_Whether(data);
+        whetherData.geoLocation.DailyWhether = add_Daily_Whether(data);
+        whetherData.geoLocation.HourlyWether = add_Hourly_whether(data);
+        whetherData.geoLocation.date = add_date_country(data.timezone);
         console.log(whetherData);
     } catch (err) {
         console.log(err);
@@ -828,20 +834,25 @@ const Searching = async function(Search) {
         const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${Search}`);
         const data = await res.json();
         const { results } = data;
-        console.log(results);
+        if (!results) return;
         const SearchedCountry = {
             name: `${results[0]?.name}, ${results[0].country ? results[0].country : ''}`,
             latitude: results[0]?.latitude,
             longitude: results[0]?.longitude,
-            timezone: results[0]?.timezone
+            timeZone: results.find((e)=>e.timezone).timezone
         };
-        const res2 = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${SearchedCountry.latitude}&longitude=${SearchedCountry.longitude}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=${SearchedCountry.timezone}&forecast_hours=12`);
+        const res2 = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${SearchedCountry.latitude}&longitude=${SearchedCountry.longitude}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=${SearchedCountry.timeZone}`);
         const resault = await res2.json();
         editDates(resault);
-        whetherData.SearchedData.CurrentWhether = add_Current(resault);
-        whetherData.SearchedData.DailyWheather = add_Daily(resault);
-        whetherData.SearchedData.HourlyWeather = add_Hourly(resault);
+        whetherData.SearchedData.CurrentWhether = add_Current_Whether(resault);
+        whetherData.SearchedData.DailyWhether = add_Daily_Whether(resault);
+        whetherData.SearchedData.HourlyWether = add_Hourly_whether(resault);
+        whetherData.SearchedData.date = add_date_country(SearchedCountry.timeZone);
         whetherData.SearchedData.name = SearchedCountry.name;
+        const date3 = new Date().toLocaleDateString('en-Us', {
+            timeZone: SearchedCountry.timeZone
+        });
+        console.log(date3);
         console.log(whetherData);
     } catch (err) {
         console.log(err);
@@ -906,14 +917,14 @@ class GeoView {
     }
     _generateMarkup() {
         const curWhether = this._data.CurrentWhether;
-        const dayWhether = this._data.DailyWheather;
-        const hourlyWhether = this._data.HourlyWeather;
+        const dayWhether = this._data.DailyWhether;
+        const hourlyWhether = this._data.HourlyWether;
         return `
             <div class="first-section">
                 <div class="bg-today">
                 <div class="location">
                     <h2>${this._data.name ? this._data.name : curWhether.location}</h2>
-                    <h4>${curWhether.date}</h4>
+                    <h4>${this._data.date}</h4>
                 </div>
 
                 <div class="temprature">
@@ -1090,7 +1101,36 @@ class GeoView {
 }
 exports.default = new GeoView();
 
-},{"../../public/images/icon-sunny.webp":"3RKa3","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"3RKa3":[function() {},{}],"hRrkw":[function(require,module,exports,__globalThis) {
+},{"../../public/images/icon-sunny.webp":"3RKa3","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"3RKa3":[function() {},{}],"22d9K":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class SearchView {
+    _parentEl = document.querySelector('.main-section');
+    _SearchBar = document.querySelector('.form');
+    handler(handel) {
+        this._SearchBar.addEventListener('submit', (e)=>{
+            e.preventDefault();
+            const input = e.target.querySelector('.text-field');
+            const getValue = input.value;
+            console.log(getValue);
+            if (!getValue) return;
+            handel(getValue);
+            input.value = '';
+        });
+    }
+    renderError() {
+        const markup = `
+            <div class="error">
+                <h1>No search result found! \u{1F6AB}</h1>
+            </div>
+        `;
+        this._parentEl.innerHTML = '';
+        this._parentEl.insertAdjacentHTML("afterbegin", markup);
+    }
+}
+exports.default = new SearchView();
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"hRrkw":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class LoadingView {
@@ -1201,25 +1241,6 @@ class LoadingView {
     }
 }
 exports.default = new LoadingView;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"22d9K":[function(require,module,exports,__globalThis) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-class SearchView {
-    _SearchBar = document.querySelector('.form');
-    handler(handel) {
-        this._SearchBar.addEventListener('submit', (e)=>{
-            e.preventDefault();
-            const input = e.target.querySelector('.text-field');
-            const getValue = input.value;
-            console.log(getValue);
-            if (!getValue) return;
-            handel(getValue);
-            input.value = '';
-        });
-    }
-}
-exports.default = new SearchView();
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["5HW5M","cCMpN"], "cCMpN", "parcelRequirec1d9", {})
 

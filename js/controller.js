@@ -24,6 +24,7 @@ const controlSearch = async function(value){
         await model.Searching(value)
         GeoView.render(model.whetherData.SearchedData)
     }catch(err){
+        SearchView.renderError()
         console.log(err);
     }
 }
