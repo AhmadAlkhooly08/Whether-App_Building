@@ -2,6 +2,7 @@ import * as model from './model.js'
 import GeoView from './view/GeoView.js'
 import loadingView from './view/loadingView.js';
 import SearchView from './view/SearchView.js';
+import dropDownBarView from './view/dropDownBarView.js';
 const ControlLocation = async function(){
     loadingView.render();
     if(!navigator.geolocation) return;
@@ -29,8 +30,12 @@ const controlSearch = async function(value){
     }
 }
 
+const controlSwitch = async function(val){
+
+}
 const input = function(){
     ControlLocation();
-    SearchView.handler(controlSearch)
+    SearchView.handler(controlSearch);
+    dropDownBarView.unitsClick(controlSwitch)
 }
 input();
