@@ -5,7 +5,7 @@ class dropDown{
 
     constructor(){
         this._units.addEventListener('click',this.unitsDropDown.bind(this));
-        // window.addEventListener('click',this.closeDropdown.bind(this))
+        // window.addEventListener('click',this.unitsDropDown.bind(this))
     }
     unitsDropDown(){
         this._hiddenUnits.classList.toggle('hidden')
@@ -14,7 +14,7 @@ class dropDown{
         this._hiddenUnits.classList.add('hidden');
     }
 
-    unitsClick(){
+    unitsClick(handler){
         this._hiddenUnits.addEventListener('click',function(e){
 
             const clickedBtn = e.target.closest('.btn');
@@ -26,8 +26,9 @@ class dropDown{
             btnActiveImg.classList.add('hidden');
 
             clickedBtn.classList.add('active');
-            btnImg.classList.remove('hidden')
+            btnImg.classList.remove('hidden');
 
+            handler(clickedBtn.innerText,btnActive.innerText)
         })
     }
 }

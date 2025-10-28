@@ -1,7 +1,9 @@
 
 export const whetherData = {
     geoLocation:{},
-    SearchedData:{}
+    SearchedData:{},
+    switch:{},
+
 }
 const add_Current_Whether = function(data){
     return {
@@ -59,6 +61,7 @@ const editDates = function(data){
     })
 
 }
+
 export const geoLocation = async function(lat,long){
     try{
         const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=auto`);
@@ -68,7 +71,10 @@ export const geoLocation = async function(lat,long){
         whetherData.geoLocation.CurrentWhether = add_Current_Whether(data)
         whetherData.geoLocation.DailyWhether =  add_Daily_Whether(data)
         whetherData.geoLocation.HourlyWether = add_Hourly_whether(data)
-        whetherData.geoLocation.date = add_date_country(data.timezone)
+        whetherData.geoLocation.date = add_date_country(data.timezone);
+
+        whetherData.switch = {curTemp : whetherData.geoLocation.CurrentWhether.Tempreture}
+        
         console.log(whetherData);
     }catch(err){
         console.log(err);
@@ -109,3 +115,13 @@ export const Searching = async function(Search){
     }
 }
 Searching()
+
+
+export const switchData = function(clickedBtn,activeBtn){
+    if(clickedBtn === 'fahrenheit(°F)' && activeBtn === 'Celsius(°C)') {
+        let temp = whetherData.switch.curTemp;
+        return whetherData.switch.curTemp = (temp * 9/5) + 32;
+    }
+    console.log(whetherData);
+}
+switchData()

@@ -30,8 +30,9 @@ const controlSearch = async function(value){
     }
 }
 
-const controlSwitch = async function(val){
-
+const controlSwitch = async function(clickedBtn,activeBtn){
+    console.log(clickedBtn,activeBtn);
+    model.switchData(clickedBtn,activeBtn);
 }
 const input = function(){
     ControlLocation();

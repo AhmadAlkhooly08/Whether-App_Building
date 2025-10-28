@@ -37,7 +37,7 @@ class GeoView{
 
                 <div class="temprature">
                     <img src="${iconSunny}" alt="">
-                    <h1>${curWhether.Tempreture}°</h1>
+                    <h1>${this._data.switch.curTemp ? curWhether.Tempreture : ''}°</h1>
                 </div>
                 </div>
                 <div class="prediction">
