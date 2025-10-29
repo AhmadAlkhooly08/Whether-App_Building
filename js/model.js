@@ -2,15 +2,34 @@
 export const whetherData = {
     geoLocation:{},
     SearchedData:{},
-    switch:{},
 
 }
+
+const toFahrenheit = function(){
+    //* current data
+    let curtemp = Number(whetherData.geoLocation.CurrentWhether.Tempreture);
+    let apparenttemp = Number(whetherData.geoLocation.CurrentWhether.apparentTempreture);
+    whetherData.geoLocation.CurrentWhether.Tempreture =Math.trunc((curtemp * 9/5) + 32)+ '°F';
+    whetherData.geoLocation.CurrentWhether.apparentTempreture =Math.trunc((apparenttemp * 9/5) + 32)+ '°F';
+
+    //* Daily data
+
+    whetherData.geoLocation.DailyWhether.maxTempreture = +whetherData.geoLocation.DailyWhether.maxTempreture.map(e => Math.trunc((e * 9/5) + 32)+ '°F');
+
+    whetherData.geoLocation.DailyWhether.minTempreture = +whetherData.geoLocation.DailyWhether.minTempreture.map(e => Math.trunc((e * 9/5) + 32)+ '°F')
+
+    //* Hourly data
+
+    whetherData.geoLocation.HourlyWether.tempreture = +whetherData.geoLocation.HourlyWether.tempreture.map(e => Math.trunc((e * 9/5) + 32)+ '°F');
+}
+
+//! Editing API data 
 const add_Current_Whether = function(data){
     return {
-        apparentTempreture: Math.trunc(data.current?.apparent_temperature),
+        apparentTempreture: Math.trunc(data.current?.apparent_temperature)+ '°',
         precipitation: data.current.precipitation,
         windSpeed: Math.trunc(data.current.wind_speed_10m),
-        Tempreture: Math.trunc(data.current.temperature_2m),
+        Tempreture: Math.trunc(data.current.temperature_2m)+ '°',
         humidity: Math.trunc(data.current.relative_humidity_2m),
         location: data.timezone.split('/').pop(),
     }    
@@ -18,15 +37,15 @@ const add_Current_Whether = function(data){
 }
 const add_Daily_Whether = function(data){
     return {
-        maxTempreture: data.daily.temperature_2m_max.map(el=> Math.trunc(el)),
-        minTempreture: data.daily.temperature_2m_min.map(el=> Math.trunc(el)),
+        maxTempreture: data.daily.temperature_2m_max.map(el=> Math.trunc(el)+ '°'),
+        minTempreture: data.daily.temperature_2m_min.map(el=> Math.trunc(el)+ '°'),
         date: data.daily.time,
     }    
 
 }
 const add_Hourly_whether = function(data){
     return {
-        tempreture: data.hourly.temperature_2m.slice(1,9).map(el=> Math.trunc(el)),
+        tempreture: data.hourly.temperature_2m.slice(1,9).map(el=> Math.trunc(el)+ '°'),
         time: data.hourly.time.slice(1,9).map(el=> el.slice(11,el.length -3)).map(el =>{
             if(el > 12) return el - 12
             if(el == '00') return 12
@@ -62,6 +81,7 @@ const editDates = function(data){
 
 }
 
+//! Creating API Requests
 export const geoLocation = async function(lat,long){
     try{
         const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=auto`);
@@ -72,8 +92,6 @@ export const geoLocation = async function(lat,long){
         whetherData.geoLocation.DailyWhether =  add_Daily_Whether(data)
         whetherData.geoLocation.HourlyWether = add_Hourly_whether(data)
         whetherData.geoLocation.date = add_date_country(data.timezone);
-
-        whetherData.switch = {curTemp : whetherData.geoLocation.CurrentWhether.Tempreture}
         
         console.log(whetherData);
     }catch(err){
@@ -116,11 +134,10 @@ export const Searching = async function(Search){
 }
 Searching()
 
-
+//! Switching data by Dom 
 export const switchData = function(clickedBtn,activeBtn){
     if(clickedBtn === 'fahrenheit(°F)' && activeBtn === 'Celsius(°C)') {
-        let temp = whetherData.switch.curTemp;
-        return whetherData.switch.curTemp = (temp * 9/5) + 32;
+        toFahrenheit();
     }
     console.log(whetherData);
 }

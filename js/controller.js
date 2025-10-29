@@ -23,7 +23,8 @@ const controlSearch = async function(value){
         loadingView.render();
 
         await model.Searching(value)
-        GeoView.render(model.whetherData.SearchedData)
+        GeoView.render(model.whetherData.SearchedData);
+
     }catch(err){
         SearchView.renderError()
         console.log(err);
@@ -31,8 +32,13 @@ const controlSearch = async function(value){
 }
 
 const controlSwitch = async function(clickedBtn,activeBtn){
-    console.log(clickedBtn,activeBtn);
-    model.switchData(clickedBtn,activeBtn);
+    try{
+        model.switchData(clickedBtn,activeBtn);
+
+        GeoView.render(model.whetherData.geoLocation)
+    }catch(err){
+        console.log(err);
+    }
 }
 const input = function(){
     ControlLocation();

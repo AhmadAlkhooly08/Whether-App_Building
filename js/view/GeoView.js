@@ -37,13 +37,13 @@ class GeoView{
 
                 <div class="temprature">
                     <img src="${iconSunny}" alt="">
-                    <h1>${this._data.switch.curTemp ? curWhether.Tempreture : ''}°</h1>
+                    <h1>${curWhether.Tempreture}</h1>
                 </div>
                 </div>
                 <div class="prediction">
                     <div class="square Feels-Like">
                     <h4>Feels Like</h4>
-                    <h1>${curWhether.apparentTempreture}°</h1>
+                    <h1>${curWhether.apparentTempreture}</h1>
                     </div>
                     <div class="square Humidity">
                     <h4>Humidity</h4>
@@ -66,56 +66,56 @@ class GeoView{
                     <h3>${dayWhether.date[0]}</h3>
                     <img src="/images/icon-rain.webp" alt="">
                     <div class="days-percentege">
-                        <h4>${dayWhether.maxTempreture[0]}°</h4>
-                        <h4>${dayWhether.minTempreture[0]}°</h4>
+                        <h4>${dayWhether.maxTempreture[0]}</h4>
+                        <h4>${dayWhether.minTempreture[0]}</h4>
                     </div>
                     </div>
                     <div class="whether-days">
                     <h3>${dayWhether.date[1]}</h3>
                     <img src="/images/icon-drizzle.webp" alt="">
                     <div class="days-percentege">
-                        <h4>${dayWhether.maxTempreture[1]}°</h4>
-                        <h4>${dayWhether.minTempreture[1]}°</h4>
+                        <h4>${dayWhether.maxTempreture[1]}</h4>
+                        <h4>${dayWhether.minTempreture[1]}</h4>
                     </div>
                     </div>
                     <div class="whether-days">
                     <h3>${dayWhether.date[2]}</h3>
                     <img src="/images/icon-sunny.png" alt="">
                     <div class="days-percentege">
-                        <h4>${dayWhether.maxTempreture[2]}°</h4>
-                        <h4>${dayWhether.minTempreture[2]}°</h4>
+                        <h4>${dayWhether.maxTempreture[2]}</h4>
+                        <h4>${dayWhether.minTempreture[2]}</h4>
                     </div>
                     </div>
                     <div class="whether-days">
                     <h3>${dayWhether.date[3]}</h3>
                     <img src="/images/icon-partly-cloudy.webp" alt="">
                     <div class="days-percentege">
-                        <h4>${dayWhether.maxTempreture[3]}°</h4>
-                        <h4>${dayWhether.minTempreture[3]}°</h4>
+                        <h4>${dayWhether.maxTempreture[3]}</h4>
+                        <h4>${dayWhether.minTempreture[3]}</h4>
                     </div>
                     </div>
                     <div class="whether-days">
                     <h3>${dayWhether.date[4]}</h3>
                     <img src="/images/icon-storm.webp" alt="">
                     <div class="days-percentege">
-                        <h4>${dayWhether.maxTempreture[4]}°</h4>
-                        <h4>${dayWhether.minTempreture[4]}°</h4>
+                        <h4>${dayWhether.maxTempreture[4]}</h4>
+                        <h4>${dayWhether.minTempreture[4]}</h4>
                     </div>
                     </div>
                     <div class="whether-days">
                     <h3>${dayWhether.date[5]}</h3>
                     <img src="/images/icon-snow.webp" alt="">
                     <div class="days-percentege">
-                        <h4>${dayWhether.maxTempreture[5]}°</h4>
-                        <h4>${dayWhether.minTempreture[5]}°</h4>
+                        <h4>${dayWhether.maxTempreture[5]}</h4>
+                        <h4>${dayWhether.minTempreture[5]}</h4>
                     </div>
                     </div>
                     <div class="whether-days">
                     <h3>${dayWhether.date[6]}</h3>
                     <img src="public/images/icon-fog.webp" alt="">
                     <div class="days-percentege">
-                        <h4>${dayWhether.maxTempreture[6]}°</h4>
-                        <h4>${dayWhether.minTempreture[6]}°</h4>
+                        <h4>${dayWhether.maxTempreture[6]}</h4>
+                        <h4>${dayWhether.minTempreture[6]}</h4>
                     </div>
                     </div>
                 </div>
@@ -149,28 +149,28 @@ class GeoView{
                     <img src="/images/icon-partly-cloudy.webp" alt="">
                     <p>${hourlyWhether.time[0]} ${hourlyWhether.meridiem[0]}</p>
                     </div>
-                    <h4>${hourlyWhether.tempreture[0]}°</h4>
+                    <h4>${hourlyWhether.tempreture[0]}</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
                     <img src="/images/icon-overcast.webp" alt="">
                     <p>${hourlyWhether.time[1]} ${hourlyWhether.meridiem[1]}</p>
                     </div>
-                    <h4>${hourlyWhether.tempreture[1]}°</h4>
+                    <h4>${hourlyWhether.tempreture[1]}</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
                     <img src="/images/icon-sunny.png" alt="">
                     <p>${hourlyWhether.time[2]} ${hourlyWhether.meridiem[2]}</p>
                     </div>
-                    <h4>${hourlyWhether.tempreture[2]}°</h4>
+                    <h4>${hourlyWhether.tempreture[2]}</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
                     <img src="/images/icon-overcast.webp" alt="">
                     <p>${hourlyWhether.time[3]} ${hourlyWhether.meridiem[3]}</p>
                     </div>
-                    <h4>${hourlyWhether.tempreture[3]}°</h4>
+                    <h4>${hourlyWhether.tempreture[3]}</h4>
                 </div>
 
                 <div class="slide">
@@ -178,28 +178,28 @@ class GeoView{
                     <img src="/images/icon-rain.webp" alt="">
                     <p>${hourlyWhether.time[4]} ${hourlyWhether.meridiem[4]}</p>
                     </div>
-                    <h4>${hourlyWhether.tempreture[4]}°</h4>
+                    <h4>${hourlyWhether.tempreture[4]}</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
                     <img src="/images/icon-storm.webp" alt="">
                     <p>${hourlyWhether.time[5]} ${hourlyWhether.meridiem[5]}</p>
                     </div>
-                    <h4>${hourlyWhether.tempreture[5]}°</h4>
+                    <h4>${hourlyWhether.tempreture[5]}</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
                     <img src="/images/icon-fog.webp" alt="">
                     <p>${hourlyWhether.time[6]} ${hourlyWhether.meridiem[6]}</p>
                     </div>
-                    <h4>${hourlyWhether.tempreture[6]}°</h4>
+                    <h4>${hourlyWhether.tempreture[6]}</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
                     <img src="/images/icon-overcast.webp" alt="">
                     <p>${hourlyWhether.time[7]} ${hourlyWhether.meridiem[7]}</p>
                     </div>
-                    <h4>${hourlyWhether.tempreture[7]}°</h4>
+                    <h4>${hourlyWhether.tempreture[7]}</h4>
                 </div>
 
                 </div>
