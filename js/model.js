@@ -1,51 +1,80 @@
-
 export const whetherData = {
     geoLocation:{},
     SearchedData:{},
-
 }
 
+let curData= null;
+let copyData = null;
+export const getCurrentObj = function(text){
+    curData = null;
+    for(const key in whetherData){
+        const data = whetherData[key];
+        if(!data.CurrentWhether) continue;
+        if(data.CurrentWhether.location === text || data.name === text){
+           curData = data;
+           copyData = structuredClone(data);
+           break;
+        }
+    }
+    return curData;
+}
 const toFahrenheit = function(){
+    if(!copyData) return;
+
+    let copy = structuredClone(copyData);
     //* current data
-    let curtemp = Number(whetherData.geoLocation.CurrentWhether.Tempreture);
-    let apparenttemp = Number(whetherData.geoLocation.CurrentWhether.apparentTempreture);
-    whetherData.geoLocation.CurrentWhether.Tempreture =Math.trunc((curtemp * 9/5) + 32)+ '°F';
-    whetherData.geoLocation.CurrentWhether.apparentTempreture =Math.trunc((apparenttemp * 9/5) + 32)+ '°F';
+    let curtemp = Number(copy.CurrentWhether.Tempreture);
+    let apparenttemp = Number(copy.CurrentWhether.apparentTempreture);
+    copy.CurrentWhether.Tempreture =Math.trunc((curtemp * 9/5) + 32);
+    copy.CurrentWhether.apparentTempreture =Math.trunc((apparenttemp * 9/5) + 32);
 
     //* Daily data
 
-    whetherData.geoLocation.DailyWhether.maxTempreture = +whetherData.geoLocation.DailyWhether.maxTempreture.map(e => Math.trunc((e * 9/5) + 32)+ '°F');
+    copy.DailyWhether.maxTempreture = copy.DailyWhether.maxTempreture.map(e => Math.trunc((e * 9/5) + 32));
 
-    whetherData.geoLocation.DailyWhether.minTempreture = +whetherData.geoLocation.DailyWhether.minTempreture.map(e => Math.trunc((e * 9/5) + 32)+ '°F')
+    copy.DailyWhether.minTempreture = copy.DailyWhether.minTempreture.map(e => Math.trunc((e * 9/5) + 32))
 
     //* Hourly data
 
-    whetherData.geoLocation.HourlyWether.tempreture = +whetherData.geoLocation.HourlyWether.tempreture.map(e => Math.trunc((e * 9/5) + 32)+ '°F');
+    copy.HourlyWether.tempreture = copy.HourlyWether.tempreture.map(e => Math.trunc((e * 9/5) + 32));
+
+    copy.unit = '°F';
+    return copy;
+}
+const toMph = function(){
+    if(!copyData) return;
+
+    let copy = structuredClone(copyData);
+
+    copy.CurrentWhether.windSpeed = Math.trunc(copy.CurrentWhether.windSpeed * 0.621371);
+    copy.CurrentWhether.SpeedUnit = 'mph';
+    return copy;
 }
 
 //! Editing API data 
 const add_Current_Whether = function(data){
     return {
-        apparentTempreture: Math.trunc(data.current?.apparent_temperature)+ '°',
+        apparentTempreture: Math.trunc(data.current?.apparent_temperature),
         precipitation: data.current.precipitation,
         windSpeed: Math.trunc(data.current.wind_speed_10m),
-        Tempreture: Math.trunc(data.current.temperature_2m)+ '°',
+        Tempreture: Math.trunc(data.current.temperature_2m),
         humidity: Math.trunc(data.current.relative_humidity_2m),
         location: data.timezone.split('/').pop(),
+        SpeedUnit : 'km/h',
     }    
 
 }
 const add_Daily_Whether = function(data){
     return {
-        maxTempreture: data.daily.temperature_2m_max.map(el=> Math.trunc(el)+ '°'),
-        minTempreture: data.daily.temperature_2m_min.map(el=> Math.trunc(el)+ '°'),
+        maxTempreture: data.daily.temperature_2m_max.map(el=> Math.trunc(el)),
+        minTempreture: data.daily.temperature_2m_min.map(el=> Math.trunc(el)),
         date: data.daily.time,
     }    
 
 }
 const add_Hourly_whether = function(data){
     return {
-        tempreture: data.hourly.temperature_2m.slice(1,9).map(el=> Math.trunc(el)+ '°'),
+        tempreture: data.hourly.temperature_2m.slice(1,9).map(el=> Math.trunc(el)),
         time: data.hourly.time.slice(1,9).map(el=> el.slice(11,el.length -3)).map(el =>{
             if(el > 12) return el - 12
             if(el == '00') return 12
@@ -92,7 +121,8 @@ export const geoLocation = async function(lat,long){
         whetherData.geoLocation.DailyWhether =  add_Daily_Whether(data)
         whetherData.geoLocation.HourlyWether = add_Hourly_whether(data)
         whetherData.geoLocation.date = add_date_country(data.timezone);
-        
+        whetherData.geoLocation.unit = '°';
+
         console.log(whetherData);
     }catch(err){
         console.log(err);
@@ -121,7 +151,9 @@ export const Searching = async function(Search){
         whetherData.SearchedData.CurrentWhether = add_Current_Whether(resault)
         whetherData.SearchedData.DailyWhether =  add_Daily_Whether(resault)
         whetherData.SearchedData.HourlyWether = add_Hourly_whether(resault)
-        whetherData.SearchedData.date = add_date_country(SearchedCountry.timeZone)
+        whetherData.SearchedData.date = add_date_country(SearchedCountry.timeZone);
+        whetherData.SearchedData.unit = '°';
+
 
         whetherData.SearchedData.name =  SearchedCountry.name ; 
 
@@ -132,13 +164,20 @@ export const Searching = async function(Search){
         console.log(err);
     }
 }
-Searching()
 
 //! Switching data by Dom 
 export const switchData = function(clickedBtn,activeBtn){
+    if(!curData) return
     if(clickedBtn === 'fahrenheit(°F)' && activeBtn === 'Celsius(°C)') {
-        toFahrenheit();
+        return toFahrenheit();
     }
-    console.log(whetherData);
+    if(clickedBtn === 'Celsius(°C)' && activeBtn ==='fahrenheit(°F)') {
+        return curData;
+    }
+    if(clickedBtn === 'mph' && activeBtn ==='km/h') {
+        return toMph();
+    }
+    if(clickedBtn === 'km/h' && activeBtn ==='mph') {
+        return curData;
+    }
 }
-switchData()

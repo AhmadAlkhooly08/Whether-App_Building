@@ -11,9 +11,11 @@ const ControlLocation = async function(){
             const { latitude, longitude } = position.coords;
             await model.geoLocation(latitude,longitude)
             GeoView.render(model.whetherData.geoLocation)
-            
+            model.getCurrentObj(document.querySelector('.location h2').textContent);
+
         }catch(err){
             console.log(err);
+            SearchView.renderError()
         }
     })
 }
@@ -24,6 +26,7 @@ const controlSearch = async function(value){
 
         await model.Searching(value)
         GeoView.render(model.whetherData.SearchedData);
+        model.getCurrentObj(document.querySelector('.location h2').textContent);
 
     }catch(err){
         SearchView.renderError()
@@ -33,9 +36,9 @@ const controlSearch = async function(value){
 
 const controlSwitch = async function(clickedBtn,activeBtn){
     try{
-        model.switchData(clickedBtn,activeBtn);
+        const convertedData = model.switchData(clickedBtn,activeBtn);
 
-        GeoView.render(model.whetherData.geoLocation)
+        GeoView.render(convertedData)
     }catch(err){
         console.log(err);
     }
