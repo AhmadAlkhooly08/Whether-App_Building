@@ -2,7 +2,7 @@
 class dropDown{
     _units = document.querySelector('.units');
     _hiddenUnits = document.querySelector('.dropDown')
-
+    _btn = document.querySelectorAll('.btn');
     constructor(){
         this._units.addEventListener('click',this.unitsDropDown.bind(this));
         // window.addEventListener('click',this.unitsDropDown.bind(this))
@@ -12,6 +12,13 @@ class dropDown{
     }
     closeDropdown(){
         this._hiddenUnits.classList.add('hidden');
+    }
+
+    disableBtn(){
+        this._btn.forEach(btn => btn.disabled = true);
+    }
+    enableBtn(){
+        this._btn.forEach(btn => btn.disabled = false);
     }
 
     unitsClick(handler){
@@ -28,7 +35,7 @@ class dropDown{
             clickedBtn.classList.add('active');
             btnImg.classList.remove('hidden');
 
-            handler(clickedBtn.innerText,btnActive.innerText)
+            handler(clickedBtn.innerText,btnActive.innerText);
         })
     }
 }

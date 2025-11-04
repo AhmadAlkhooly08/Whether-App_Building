@@ -55,14 +55,14 @@ class GeoView{
                     </div>
                     <div class="square precipitation">
                     <h4>precipitation</h4>
-                    <h1>${curWhether.precipitation} mm</h1>
+                    <h1>${curWhether.precipitation} ${curWhether.sembol}</h1>
                     </div>
                 </div>
 
                 <div class="daily-forecast">
                 <h3>Daily forecast</h3>
-                <div class="days-Whether">
-                    <div class="whether-days">
+                <div class="days-Whether ${this._data.unit === '°F' ? 'felsius' : ''}">
+                    <div class="whether-days ${this._data.unit === '°F' ? 'hidden' : ''}">
                     <h3>${dayWhether.date[0]}</h3>
                     <img src="/images/icon-rain.webp" alt="">
                     <div class="days-percentege">
@@ -110,7 +110,7 @@ class GeoView{
                         <h4>${dayWhether.minTempreture[5]}${this._data.unit}</h4>
                     </div>
                     </div>
-                    <div class="whether-days">
+                    <div class="whether-days ${this._data.unit === '°F' ? 'hidden' : ''}">
                     <h3>${dayWhether.date[6]}</h3>
                     <img src="public/images/icon-fog.webp" alt="">
                     <div class="days-percentege">

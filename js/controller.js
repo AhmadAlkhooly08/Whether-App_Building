@@ -4,6 +4,7 @@ import loadingView from './view/loadingView.js';
 import SearchView from './view/SearchView.js';
 import dropDownBarView from './view/dropDownBarView.js';
 const ControlLocation = async function(){
+    dropDownBarView.disableBtn();
     loadingView.render();
     if(!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(async function(position){
@@ -12,7 +13,7 @@ const ControlLocation = async function(){
             await model.geoLocation(latitude,longitude)
             GeoView.render(model.whetherData.geoLocation)
             model.getCurrentObj(document.querySelector('.location h2').textContent);
-
+            dropDownBarView.enableBtn();
         }catch(err){
             console.log(err);
             SearchView.renderError()
@@ -22,11 +23,14 @@ const ControlLocation = async function(){
 
 const controlSearch = async function(value){
     try{
+        dropDownBarView.disableBtn();
         loadingView.render();
 
         await model.Searching(value)
         GeoView.render(model.whetherData.SearchedData);
         model.getCurrentObj(document.querySelector('.location h2').textContent);
+
+        dropDownBarView.enableBtn();
 
     }catch(err){
         SearchView.renderError()
@@ -36,9 +40,12 @@ const controlSearch = async function(value){
 
 const controlSwitch = async function(clickedBtn,activeBtn){
     try{
+        dropDownBarView.disableBtn();
         const convertedData = model.switchData(clickedBtn,activeBtn);
 
         GeoView.render(convertedData)
+        dropDownBarView.enableBtn();
+
     }catch(err){
         console.log(err);
     }

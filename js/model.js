@@ -12,16 +12,49 @@ export const getCurrentObj = function(text){
         if(!data.CurrentWhether) continue;
         if(data.CurrentWhether.location === text || data.name === text){
            curData = data;
-           copyData = structuredClone(data);
            break;
         }
     }
     return curData;
 }
-const toFahrenheit = function(){
-    if(!copyData) return;
 
-    let copy = structuredClone(copyData);
+const toImperial = function(){
+    if(!curData) return;
+
+    let copy = structuredClone(curData);
+    //* current data
+    let curtemp = Number(copy.CurrentWhether.Tempreture);
+    let apparenttemp = Number(copy.CurrentWhether.apparentTempreture);
+    copy.CurrentWhether.Tempreture =Math.trunc((curtemp * 9/5) + 32);
+    copy.CurrentWhether.apparentTempreture =Math.trunc((apparenttemp * 9/5) + 32);
+
+    //* Daily data
+
+    copy.DailyWhether.maxTempreture = copy.DailyWhether.maxTempreture.map(e => Math.trunc((e * 9/5) + 32));
+
+    copy.DailyWhether.minTempreture = copy.DailyWhether.minTempreture.map(e => Math.trunc((e * 9/5) + 32))
+
+    //* Hourly data
+
+    copy.HourlyWether.tempreture = copy.HourlyWether.tempreture.map(e => Math.trunc((e * 9/5) + 32));
+
+    copy.unit = '°F';
+
+
+    let wSpeed = Number(copy.CurrentWhether.windSpeed);
+    copy.CurrentWhether.windSpeed = Math.trunc(wSpeed * 0.621371);
+    copy.CurrentWhether.SpeedUnit = 'mph';
+
+    copy.CurrentWhether.precipitation = Math.round(copy.CurrentWhether.precipitation / 25.4).toFixed(1);
+
+    copy.CurrentWhether.sembol = 'in';
+    return copy;
+
+}
+const toFahrenheit = function(){
+    if(!curData) return;
+
+    let copy = structuredClone(curData);
     //* current data
     let curtemp = Number(copy.CurrentWhether.Tempreture);
     let apparenttemp = Number(copy.CurrentWhether.apparentTempreture);
@@ -42,15 +75,27 @@ const toFahrenheit = function(){
     return copy;
 }
 const toMph = function(){
-    if(!copyData) return;
+    if(!curData || !curData.CurrentWhether) return;
 
-    let copy = structuredClone(copyData);
+    let copy = structuredClone(curData);
 
-    copy.CurrentWhether.windSpeed = Math.trunc(copy.CurrentWhether.windSpeed * 0.621371);
+    let wSpeed = Number(copy.CurrentWhether.windSpeed);
+    copy.CurrentWhether.windSpeed = Math.trunc(wSpeed * 0.621371);
     copy.CurrentWhether.SpeedUnit = 'mph';
+    console.log(copy);
     return copy;
 }
 
+const toInch = function(){
+    if(!curData || !curData.CurrentWhether) return;
+
+    let copy = structuredClone(curData);
+
+    copy.CurrentWhether.precipitation = Math.round(copy.CurrentWhether.precipitation / 25.4).toFixed(1);
+
+    copy.CurrentWhether.sembol = 'in';
+    return copy;
+}
 //! Editing API data 
 const add_Current_Whether = function(data){
     return {
@@ -61,6 +106,7 @@ const add_Current_Whether = function(data){
         humidity: Math.trunc(data.current.relative_humidity_2m),
         location: data.timezone.split('/').pop(),
         SpeedUnit : 'km/h',
+        sembol: 'mm',
     }    
 
 }
@@ -167,17 +213,28 @@ export const Searching = async function(Search){
 
 //! Switching data by Dom 
 export const switchData = function(clickedBtn,activeBtn){
-    if(!curData) return
+    if(!curData || !curData.CurrentWhether) return;
     if(clickedBtn === 'fahrenheit(°F)' && activeBtn === 'Celsius(°C)') {
         return toFahrenheit();
     }
     if(clickedBtn === 'Celsius(°C)' && activeBtn ==='fahrenheit(°F)') {
         return curData;
     }
-    if(clickedBtn === 'mph' && activeBtn ==='km/h') {
+    if(clickedBtn === 'mph' && activeBtn ==='Km/h') {
         return toMph();
     }
-    if(clickedBtn === 'km/h' && activeBtn ==='mph') {
+    if(clickedBtn === 'Km/h' && activeBtn ==='mph') {
         return curData;
     }
+    if(clickedBtn === 'Inches(in)' && activeBtn ==='Millimeters(mm)') {
+        return toInch();
+    }
+    if(clickedBtn === 'Millimeters(mm)' && activeBtn ==='Inches(in)') {
+        return curData;
+    }
+    if(clickedBtn === 'Switch to Imperial'){
+        return toImperial();
+    }
+
+    return curData;
 }
