@@ -9,6 +9,7 @@ const ControlLocation = async function(){
     if(!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(async function(position){
         try{
+            dropDownBarView.renderActive();
             const { latitude, longitude } = position.coords;
             await model.geoLocation(latitude,longitude)
             GeoView.render(model.whetherData.geoLocation)
@@ -24,6 +25,7 @@ const ControlLocation = async function(){
 const controlSearch = async function(value){
     try{
         dropDownBarView.disableBtn();
+        dropDownBarView.renderActive();
         loadingView.render();
 
         await model.Searching(value)

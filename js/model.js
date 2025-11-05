@@ -18,10 +18,10 @@ export const getCurrentObj = function(text){
     return curData;
 }
 
+let copy;
 const toImperial = function(){
     if(!curData) return;
-
-    let copy = structuredClone(curData);
+    copy = structuredClone(curData);
     //* current data
     let curtemp = Number(copy.CurrentWhether.Tempreture);
     let apparenttemp = Number(copy.CurrentWhether.apparentTempreture);
@@ -53,8 +53,8 @@ const toImperial = function(){
 }
 const toFahrenheit = function(){
     if(!curData) return;
+    copy = structuredClone(curData);
 
-    let copy = structuredClone(curData);
     //* current data
     let curtemp = Number(copy.CurrentWhether.Tempreture);
     let apparenttemp = Number(copy.CurrentWhether.apparentTempreture);
@@ -76,8 +76,7 @@ const toFahrenheit = function(){
 }
 const toMph = function(){
     if(!curData || !curData.CurrentWhether) return;
-
-    let copy = structuredClone(curData);
+    copy = structuredClone(curData);
 
     let wSpeed = Number(copy.CurrentWhether.windSpeed);
     copy.CurrentWhether.windSpeed = Math.trunc(wSpeed * 0.621371);
@@ -89,8 +88,7 @@ const toMph = function(){
 const toInch = function(){
     if(!curData || !curData.CurrentWhether) return;
 
-    let copy = structuredClone(curData);
-
+    copy = structuredClone(curData);
     copy.CurrentWhether.precipitation = Math.round(copy.CurrentWhether.precipitation / 25.4).toFixed(1);
 
     copy.CurrentWhether.sembol = 'in';
@@ -233,7 +231,7 @@ export const switchData = function(clickedBtn,activeBtn){
         return curData;
     }
     if(clickedBtn === 'Switch to Imperial'){
-        return toImperial();
+        return toImperial()
     }
 
     return curData;
