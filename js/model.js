@@ -4,7 +4,7 @@ export const whetherData = {
 }
 
 let curData= null;
-let copyData = null;
+let copy = null;
 export const getCurrentObj = function(text){
     curData = null;
     for(const key in whetherData){
@@ -12,87 +12,58 @@ export const getCurrentObj = function(text){
         if(!data.CurrentWhether) continue;
         if(data.CurrentWhether.location === text || data.name === text){
            curData = data;
+           copy = structuredClone(data);
            break;
         }
     }
     return curData;
 }
 
-let copy;
-const toImperial = function(){
-    if(!curData) return;
-    copy = structuredClone(curData);
-    //* current data
-    let curtemp = Number(copy.CurrentWhether.Tempreture);
-    let apparenttemp = Number(copy.CurrentWhether.apparentTempreture);
-    copy.CurrentWhether.Tempreture =Math.trunc((curtemp * 9/5) + 32);
-    copy.CurrentWhether.apparentTempreture =Math.trunc((apparenttemp * 9/5) + 32);
-
-    //* Daily data
-
-    copy.DailyWhether.maxTempreture = copy.DailyWhether.maxTempreture.map(e => Math.trunc((e * 9/5) + 32));
-
-    copy.DailyWhether.minTempreture = copy.DailyWhether.minTempreture.map(e => Math.trunc((e * 9/5) + 32))
-
-    //* Hourly data
-
-    copy.HourlyWether.tempreture = copy.HourlyWether.tempreture.map(e => Math.trunc((e * 9/5) + 32));
-
-    copy.unit = '°F';
-
-
-    let wSpeed = Number(copy.CurrentWhether.windSpeed);
-    copy.CurrentWhether.windSpeed = Math.trunc(wSpeed * 0.621371);
-    copy.CurrentWhether.SpeedUnit = 'mph';
-
-    copy.CurrentWhether.precipitation = Math.round(copy.CurrentWhether.precipitation / 25.4).toFixed(1);
-
-    copy.CurrentWhether.sembol = 'in';
-    return copy;
-
+export const curUnits ={
+    temp: 'C',
+    speed:'km/h',
+    prep: 'mm',
 }
-const toFahrenheit = function(){
-    if(!curData) return;
-    copy = structuredClone(curData);
-
-    //* current data
-    let curtemp = Number(copy.CurrentWhether.Tempreture);
-    let apparenttemp = Number(copy.CurrentWhether.apparentTempreture);
-    copy.CurrentWhether.Tempreture =Math.trunc((curtemp * 9/5) + 32);
-    copy.CurrentWhether.apparentTempreture =Math.trunc((apparenttemp * 9/5) + 32);
-
-    //* Daily data
-
-    copy.DailyWhether.maxTempreture = copy.DailyWhether.maxTempreture.map(e => Math.trunc((e * 9/5) + 32));
-
-    copy.DailyWhether.minTempreture = copy.DailyWhether.minTempreture.map(e => Math.trunc((e * 9/5) + 32))
-
-    //* Hourly data
-
-    copy.HourlyWether.tempreture = copy.HourlyWether.tempreture.map(e => Math.trunc((e * 9/5) + 32));
-
-    copy.unit = '°F';
-    return copy;
+let base;
+const convertTempruter = function(unit){
+    base=structuredClone(curData);
+    if(unit === 'F'){
+        base.CurrentWhether.Tempreture = Math.trunc((copy.CurrentWhether.Tempreture * 9/5) + 32);
+        base.CurrentWhether.apparentTempreture = Math.trunc((copy.CurrentWhether.apparentTempreture * 9/5) + 32);
+        base.DailyWhether.maxTempreture = copy.DailyWhether.maxTempreture.map(e => Math.trunc((e * 9/5) + 32));
+        base.DailyWhether.minTempreture = copy.DailyWhether.minTempreture.map(e => Math.trunc((e * 9/5) + 32));
+        base.HourlyWether.tempreture = copy.HourlyWether.tempreture.map(e => Math.trunc((e * 9/5) + 32));
+        base.unit = '°F';
+    }else{
+        base.unit = '°';
+    }
+    curUnits.temp = unit;
+    return base;
 }
-const toMph = function(){
-    if(!curData || !curData.CurrentWhether) return;
-    copy = structuredClone(curData);
+const convertSpeed = function(unit){
+    // base = structuredClone(curData);
+    if(unit === 'mph'){
+        base.CurrentWhether.windSpeed = Math.trunc(copy.CurrentWhether.windSpeed * 0.621371);
+        base.CurrentWhether.SpeedUnit = 'mph';
+    }else{
+        base.CurrentWhether.SpeedUnit = 'km/h';
+    }
 
-    let wSpeed = Number(copy.CurrentWhether.windSpeed);
-    copy.CurrentWhether.windSpeed = Math.trunc(wSpeed * 0.621371);
-    copy.CurrentWhether.SpeedUnit = 'mph';
-    console.log(copy);
-    return copy;
+    curUnits.speed = unit;
+    return base;
 }
 
-const toInch = function(){
-    if(!curData || !curData.CurrentWhether) return;
+const convertprep = function(unit){
+    // base = structuredClone(curData);
 
-    copy = structuredClone(curData);
-    copy.CurrentWhether.precipitation = Math.round(copy.CurrentWhether.precipitation / 25.4).toFixed(1);
-
-    copy.CurrentWhether.sembol = 'in';
-    return copy;
+    if(unit === 'in'){
+        base.CurrentWhether.precipitation = +(copy.CurrentWhether.precipitation / 25.4).toFixed(1);
+        base.CurrentWhether.sembol = 'in';      
+    }else{
+        base.CurrentWhether.sembol = 'mm';      
+    }
+    curUnits.prep = unit;
+    return base;
 }
 //! Editing API data 
 const add_Current_Whether = function(data){
@@ -212,26 +183,32 @@ export const Searching = async function(Search){
 //! Switching data by Dom 
 export const switchData = function(clickedBtn,activeBtn){
     if(!curData || !curData.CurrentWhether) return;
-    if(clickedBtn === 'fahrenheit(°F)' && activeBtn === 'Celsius(°C)') {
-        return toFahrenheit();
+
+    if(clickedBtn === 'fahrenheit(°F)') {
+        return convertTempruter('F');
     }
-    if(clickedBtn === 'Celsius(°C)' && activeBtn ==='fahrenheit(°F)') {
-        return curData;
+    if(clickedBtn === 'Celsius(°C)' ) {
+        return convertTempruter('C');
     }
-    if(clickedBtn === 'mph' && activeBtn ==='Km/h') {
-        return toMph();
+    if(clickedBtn === 'mph' ) {
+        return convertSpeed('mph');
     }
-    if(clickedBtn === 'Km/h' && activeBtn ==='mph') {
-        return curData;
+    if(clickedBtn === 'Km/h' ) {
+        return convertSpeed('km/h');
     }
-    if(clickedBtn === 'Inches(in)' && activeBtn ==='Millimeters(mm)') {
-        return toInch();
+    if(clickedBtn === 'Inches(in)') {
+        return convertprep('in');
     }
-    if(clickedBtn === 'Millimeters(mm)' && activeBtn ==='Inches(in)') {
-        return curData;
+    if(clickedBtn === 'Millimeters(mm)') {
+        return convertprep('mm');
     }
     if(clickedBtn === 'Switch to Imperial'){
-        return toImperial()
+        let base = structuredClone(curData);
+
+        base = convertTempruter('F');
+        base = convertSpeed('mph');
+        base = convertprep('in');
+        return base;
     }
 
     return curData;

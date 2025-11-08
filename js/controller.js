@@ -40,14 +40,14 @@ const controlSearch = async function(value){
     }
 }
 
-const controlSwitch = async function(clickedBtn,activeBtn){
+const controlSwitch = async function(clickedBtn){
     try{
         dropDownBarView.disableBtn();
-        const convertedData = model.switchData(clickedBtn,activeBtn);
+        const convertedData = model.switchData(clickedBtn);
 
         GeoView.render(convertedData)
+        dropDownBarView.renderActive();
         dropDownBarView.enableBtn();
-
     }catch(err){
         console.log(err);
     }
