@@ -5,6 +5,7 @@ export const whetherData = {
 
 let curData= null;
 let copy = null;
+
 export const getCurrentObj = function(text){
     curData = null;
     for(const key in whetherData){
@@ -23,10 +24,13 @@ export const curUnits ={
     temp: 'C',
     speed:'km/h',
     prep: 'mm',
+    copy,
 }
+
 let base;
 const convertTempruter = function(unit){
-    base=structuredClone(curData);
+    curUnits.copy = structuredClone(curData);
+    base = curUnits.copy;
     if(unit === 'F'){
         base.CurrentWhether.Tempreture = Math.trunc((copy.CurrentWhether.Tempreture * 9/5) + 32);
         base.CurrentWhether.apparentTempreture = Math.trunc((copy.CurrentWhether.apparentTempreture * 9/5) + 32);
@@ -41,7 +45,7 @@ const convertTempruter = function(unit){
     return base;
 }
 const convertSpeed = function(unit){
-    // base = structuredClone(curData);
+    base = curUnits.copy;
     if(unit === 'mph'){
         base.CurrentWhether.windSpeed = Math.trunc(copy.CurrentWhether.windSpeed * 0.621371);
         base.CurrentWhether.SpeedUnit = 'mph';
@@ -54,7 +58,7 @@ const convertSpeed = function(unit){
 }
 
 const convertprep = function(unit){
-    // base = structuredClone(curData);
+    base = curUnits.copy;
 
     if(unit === 'in'){
         base.CurrentWhether.precipitation = +(copy.CurrentWhether.precipitation / 25.4).toFixed(1);
