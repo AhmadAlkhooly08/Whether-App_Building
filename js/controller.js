@@ -45,8 +45,7 @@ const controlSwitch = async function(clickedBtn){
         dropDownBarView.disableBtn();
         const convertedData = model.switchData(clickedBtn);
 
-        GeoView.render(convertedData)
-        dropDownBarView.renderActive();
+        GeoView.render(convertedData);
         dropDownBarView.enableBtn();
     }catch(err){
         console.log(err);

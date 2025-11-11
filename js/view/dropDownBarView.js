@@ -21,64 +21,51 @@ class dropDown{
         this._btn.forEach(btn => btn.disabled = false);
     }
 
-    renderActive(){
-        const {temp,speed,prep} = model.curUnits;
+    // renderActive(){
+    //     const {temp,speed,prep} = model.curUnits;
         
-        this._activeBtn(temp === 'F' ? '.fahrenheit' : '.Celsius')
-        this._activeBtn(speed === 'mph' ? '.mph' : '.km');
-        this._activeBtn(prep === 'in' ? '.in' : '.km');
-    }
-    _activeBtn(selector){
+    //     this._hiddenUnits.querySelectorAll('.btn').forEach(e =>{
+    //         e.classList.remove('active')
+    //         e.querySelector('.img-check').classList.add('hidden');
+    //     })
+    // }
+    renderActive(){
         this._hiddenUnits.querySelectorAll('.btn').forEach(e =>{
             e.classList.remove('active')
             e.querySelector('.img-check').classList.add('hidden');
         })
 
-        const el = document.querySelector(selector);
-        if(el){
-            el.classList.add('active');
-            el.querySelector('.img-check').classList.remove('hidden');
-        }
+        const selector = ['.Celsius','.km' ,'.mm'];
+
+        selector.forEach(btn =>{
+            const active = document.querySelector(btn);
+
+            active.classList.add('active');
+            active.querySelector('.img-check').classList.remove('hidden')
+        })
 
     }
-    // renderActive(){
-    //     this._hiddenUnits.querySelectorAll('.btn').forEach(e =>{
-    //         e.classList.remove('active')
-    //         e.querySelector('.img-check').classList.add('hidden');
-    //     })
-
-    //     const selector = ['.Celsius','.km' ,'.mm'];
-
-    //     selector.forEach(btn =>{
-    //         const active = document.querySelector(btn);
-
-    //         active.classList.add('active');
-    //         active.querySelector('.img-check').classList.remove('hidden')
-    //     })
-
-    // }
     unitsClick(handler){
-        this._hiddenUnits.addEventListener('click',(e) =>{
-            
+        this._hiddenUnits.addEventListener('click',function(e){
             const allBtn = document.querySelectorAll('.btn')
             const clickedBtn = e.target.closest('.btn');
-            const btnActive = clickedBtn.parentElement.querySelector('.btn.active');
-            
-            this.renderActive();
-            // if(btnActive && btnActiveImg){
-            //     btnActive.classList.remove('active');
-            //     btnActiveImg.classList.add('hidden');
+            if(!clickedBtn) return;
 
-            //     clickedBtn.classList.add('active');
-            //     btnImg.classList.remove('hidden');
-            // }else{
-            //     clickedBtnclassList.add('active');
-            //     btnImg.classList.remove('hidden');
+            const parent = clickedBtn.closest('.group'); 
+            if(!parent){
+                handler(clickedBtn.innerText);
+                return;
+            };
 
-            //     amperialBtn.classList.remove('active');
-            //     amperialBtn.querySelector('.img-check').classList.add('hidden');
-            // }
+            if(clickedBtn.classList.contains('active')) return;
 
+            parent.querySelectorAll('.btn').forEach(el=>{
+                el.classList.remove('active');
+                el.querySelector('.img-check').classList.add('hidden');
+            })
+
+            clickedBtn.classList.add('active');
+            clickedBtn.querySelector('.img-check').classList.remove('hidden');
 
             // const btnActiveArr = allBtn.map(e => e.classList.includes('active'));
             // console.log(btnActiveArr);

@@ -5,6 +5,7 @@ export const whetherData = {
 
 let curData= null;
 let copy = null;
+let copy2 = null;
 
 export const getCurrentObj = function(text){
     curData = null;
@@ -14,6 +15,7 @@ export const getCurrentObj = function(text){
         if(data.CurrentWhether.location === text || data.name === text){
            curData = data;
            copy = structuredClone(data);
+           copy2 = structuredClone(data);
            break;
         }
     }
@@ -24,50 +26,56 @@ export const curUnits ={
     temp: 'C',
     speed:'km/h',
     prep: 'mm',
-    copy,
+    // copy: structuredClone(curData),
 }
 
-let base;
+
 const convertTempruter = function(unit){
-    curUnits.copy = structuredClone(curData);
-    base = curUnits.copy;
+
+    const curCopy = structuredClone(curData);
     if(unit === 'F'){
-        base.CurrentWhether.Tempreture = Math.trunc((copy.CurrentWhether.Tempreture * 9/5) + 32);
-        base.CurrentWhether.apparentTempreture = Math.trunc((copy.CurrentWhether.apparentTempreture * 9/5) + 32);
-        base.DailyWhether.maxTempreture = copy.DailyWhether.maxTempreture.map(e => Math.trunc((e * 9/5) + 32));
-        base.DailyWhether.minTempreture = copy.DailyWhether.minTempreture.map(e => Math.trunc((e * 9/5) + 32));
-        base.HourlyWether.tempreture = copy.HourlyWether.tempreture.map(e => Math.trunc((e * 9/5) + 32));
-        base.unit = '°F';
+        copy.CurrentWhether.Tempreture = Math.trunc((curCopy.CurrentWhether.Tempreture * 9/5) + 32);
+        copy.CurrentWhether.apparentTempreture = Math.trunc((curCopy.CurrentWhether.apparentTempreture * 9/5) + 32);
+        copy.DailyWhether.maxTempreture = curCopy.DailyWhether.maxTempreture.map(e => Math.trunc((e * 9/5) + 32));
+        copy.DailyWhether.minTempreture = curCopy.DailyWhether.minTempreture.map(e => Math.trunc((e * 9/5) + 32));
+        copy.HourlyWether.tempreture = curCopy.HourlyWether.tempreture.map(e => Math.trunc((e * 9/5) + 32));
+        copy.unit = '°F';
     }else{
-        base.unit = '°';
+        copy = structuredClone(curCopy);
+        copy.unit = '°';
     }
     curUnits.temp = unit;
-    return base;
+    // copy2 = structuredClone(copy);
+    return copy;
 }
 const convertSpeed = function(unit){
-    base = curUnits.copy;
+    const curCopy = structuredClone(curData);
     if(unit === 'mph'){
-        base.CurrentWhether.windSpeed = Math.trunc(copy.CurrentWhether.windSpeed * 0.621371);
-        base.CurrentWhether.SpeedUnit = 'mph';
+        copy.CurrentWhether.windSpeed = Math.trunc(curCopy.CurrentWhether.windSpeed * 0.621371);
+        copy.CurrentWhether.SpeedUnit = 'mph';
     }else{
-        base.CurrentWhether.SpeedUnit = 'km/h';
+        copy = structuredClone(curCopy);
+        copy.CurrentWhether.SpeedUnit = 'km/h';
     }
 
     curUnits.speed = unit;
-    return base;
+    // copy2 = structuredClone(copy);
+    return copy;
 }
 
 const convertprep = function(unit){
-    base = curUnits.copy;
+    const curCopy = structuredClone(curData);
 
     if(unit === 'in'){
-        base.CurrentWhether.precipitation = +(copy.CurrentWhether.precipitation / 25.4).toFixed(1);
-        base.CurrentWhether.sembol = 'in';      
+        copy.CurrentWhether.precipitation = +(curCopy.CurrentWhether.precipitation / 25.4).toFixed(1);
+        copy.CurrentWhether.sembol = 'in';      
     }else{
-        base.CurrentWhether.sembol = 'mm';      
+        copy = structuredClone(curCopy)
+        copy.CurrentWhether.sembol = 'mm';      
     }
     curUnits.prep = unit;
-    return base;
+    // copy2 = structuredClone(copy);
+    return copy;
 }
 //! Editing API data 
 const add_Current_Whether = function(data){
