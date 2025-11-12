@@ -47,9 +47,25 @@ class dropDown{
     }
     unitsClick(handler){
         this._hiddenUnits.addEventListener('click',function(e){
-            const allBtn = document.querySelectorAll('.btn')
+            const allBtn = document.querySelectorAll('.btn');
             const clickedBtn = e.target.closest('.btn');
+            const imperial = ['.fahrenheit','.mph','.in'];
+            const impBtn = document.querySelector('.btn_imperial');
             if(!clickedBtn) return;
+
+            if(clickedBtn.innerText === 'Switch to Imperial'){
+                allBtn.forEach(el=>{
+                    el.classList.remove('active');
+                    el.querySelector('.img-check').classList.add('hidden');
+                });
+                clickedBtn.classList.add('active');
+                clickedBtn.querySelector('.img-check').classList.remove('hidden');
+                imperial.forEach(el=>{
+                    const button = document.querySelector(el);
+                    button.classList.add('active');
+                    button.querySelector('.img-check').classList.remove('hidden');
+                })
+            }
 
             const parent = clickedBtn.closest('.group'); 
             if(!parent){
@@ -63,12 +79,13 @@ class dropDown{
                 el.classList.remove('active');
                 el.querySelector('.img-check').classList.add('hidden');
             })
-
+            if(impBtn.classList.contains('active')){
+                impBtn.classList.remove('active');
+                impBtn.querySelector('.img-check').classList.add('hidden');
+            }
             clickedBtn.classList.add('active');
             clickedBtn.querySelector('.img-check').classList.remove('hidden');
 
-            // const btnActiveArr = allBtn.map(e => e.classList.includes('active'));
-            // console.log(btnActiveArr);
             handler(clickedBtn.innerText);
         })
     }

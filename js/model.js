@@ -41,11 +41,15 @@ const convertTempruter = function(unit){
         copy.HourlyWether.tempreture = curCopy.HourlyWether.tempreture.map(e => Math.trunc((e * 9/5) + 32));
         copy.unit = '°F';
     }else{
-        copy = structuredClone(curCopy);
+        copy.CurrentWhether.Tempreture = Math.round((copy.CurrentWhether.Tempreture -32) * 5/9);
+        copy.CurrentWhether.apparentTempreture = Math.round((copy.CurrentWhether.apparentTempreture - 32) * 5/9);
+        copy.DailyWhether.maxTempreture = copy.DailyWhether.maxTempreture.map(e => Math.round((e - 32) * 5/9));
+        copy.DailyWhether.minTempreture = copy.DailyWhether.minTempreture.map(e => Math.round((e - 32) * 5/9));
+        copy.HourlyWether.tempreture = copy.HourlyWether.tempreture.map(e => Math.round((e - 32) * 5/9));
+
         copy.unit = '°';
     }
     curUnits.temp = unit;
-    // copy2 = structuredClone(copy);
     return copy;
 }
 const convertSpeed = function(unit){
@@ -54,12 +58,11 @@ const convertSpeed = function(unit){
         copy.CurrentWhether.windSpeed = Math.trunc(curCopy.CurrentWhether.windSpeed * 0.621371);
         copy.CurrentWhether.SpeedUnit = 'mph';
     }else{
-        copy = structuredClone(curCopy);
+        copy.CurrentWhether.windSpeed = Math.round(copy.CurrentWhether.windSpeed * 1.60934);
         copy.CurrentWhether.SpeedUnit = 'km/h';
     }
 
     curUnits.speed = unit;
-    // copy2 = structuredClone(copy);
     return copy;
 }
 
@@ -70,8 +73,10 @@ const convertprep = function(unit){
         copy.CurrentWhether.precipitation = +(curCopy.CurrentWhether.precipitation / 25.4).toFixed(1);
         copy.CurrentWhether.sembol = 'in';      
     }else{
-        copy = structuredClone(curCopy)
-        copy.CurrentWhether.sembol = 'mm';      
+        copy.CurrentWhether.precipitation = +(copy.CurrentWhether.precipitation * 25.4).toFixed(1);
+        // copy = structuredClone(curCopy);
+        copy.CurrentWhether.sembol = 'mm';  
+
     }
     curUnits.prep = unit;
     // copy2 = structuredClone(copy);
