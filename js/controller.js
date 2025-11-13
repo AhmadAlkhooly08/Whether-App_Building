@@ -3,6 +3,7 @@ import GeoView from './view/GeoView.js'
 import loadingView from './view/loadingView.js';
 import SearchView from './view/SearchView.js';
 import dropDownBarView from './view/dropDownBarView.js';
+import daysDropDown from './view/daysDropDownBarView.js'
 const ControlLocation = async function(){
     dropDownBarView.disableBtn();
     loadingView.render();
@@ -16,10 +17,10 @@ const ControlLocation = async function(){
             model.getCurrentObj(document.querySelector('.location h2').textContent);
             dropDownBarView.enableBtn();
         }catch(err){
+            GeoView.renderError()
             console.log(err);
-            SearchView.renderError()
         }
-    })
+    },GeoView.renderError())
 }
 
 const controlSearch = async function(value){
@@ -51,9 +52,14 @@ const controlSwitch = async function(clickedBtn){
         console.log(err);
     }
 }
+
+const controlDaySwitch = function(){
+    console.log('helllo');
+}
 const input = function(){
     ControlLocation();
     SearchView.handler(controlSearch);
-    dropDownBarView.unitsClick(controlSwitch)
+    dropDownBarView.unitsClick(controlSwitch);
+    daysDropDown();
 }
 input();

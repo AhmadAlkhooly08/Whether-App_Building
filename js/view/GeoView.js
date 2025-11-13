@@ -23,6 +23,21 @@ class GeoView{
         this._parentEl.innerHTML = '';
     }
 
+    renderError(){
+        const markup = `
+            <div class="error">
+                <h1>
+                    Couldnt reach to location 🚫
+                </h1>
+                <h1>
+                    search for your city
+                </h1>
+            </div>
+        `;
+
+        this._parentEl.innerHTML = '';
+        this._parentEl.insertAdjacentHTML("afterbegin",markup)
+    }
     _generateMarkup(){
         const curWhether = this._data.CurrentWhether;
         const dayWhether = this._data.DailyWhether;
@@ -127,10 +142,10 @@ class GeoView{
                 <div class="row">
                     <h1>Hourly forecast</h1>
                     <div class="btn-days">
-                    <button>
-                        <p>${dayWhether.date[0]}</p>
-                        <img src="public/images/icon-dropdown.svg" alt="" />
-                    </button>
+                        <button>
+                            <p>${dayWhether.date[0]}</p>
+                            <img src="public/images/icon-dropdown.svg" alt="" />
+                        </button>
                     </div>
                 </div>
                 <div class="days-select hidden">
