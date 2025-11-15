@@ -3,7 +3,7 @@ import GeoView from './view/GeoView.js'
 import loadingView from './view/loadingView.js';
 import SearchView from './view/SearchView.js';
 import dropDownBarView from './view/dropDownBarView.js';
-import daysDropDown from './view/daysDropDownBarView.js'
+import daysDropDown from './view/daysDropDownView.js'
 const ControlLocation = async function(){
     dropDownBarView.disableBtn();
     loadingView.render();
@@ -20,7 +20,7 @@ const ControlLocation = async function(){
             GeoView.renderError()
             console.log(err);
         }
-    },GeoView.renderError())
+    })
 }
 
 const controlSearch = async function(value){
@@ -60,6 +60,6 @@ const input = function(){
     ControlLocation();
     SearchView.handler(controlSearch);
     dropDownBarView.unitsClick(controlSwitch);
-    daysDropDown();
+    daysDropDown;
 }
 input();
