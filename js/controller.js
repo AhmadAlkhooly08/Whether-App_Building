@@ -60,6 +60,6 @@ const input = function(){
     ControlLocation();
     SearchView.handler(controlSearch);
     dropDownBarView.unitsClick(controlSwitch);
-    daysDropDown;
+    daysDropDown.toggleClass();
 }
 input();

@@ -1,4 +1,4 @@
-import * as model from '../model.js'
+
 class dropDown{
     _units = document.querySelector('.units');
     _hiddenUnits = document.querySelector('.dropDown')
@@ -21,14 +21,6 @@ class dropDown{
         this._btn.forEach(btn => btn.disabled = false);
     }
 
-    // renderActive(){
-    //     const {temp,speed,prep} = model.curUnits;
-        
-    //     this._hiddenUnits.querySelectorAll('.btn').forEach(e =>{
-    //         e.classList.remove('active')
-    //         e.querySelector('.img-check').classList.add('hidden');
-    //     })
-    // }
     renderActive(){
         this._hiddenUnits.querySelectorAll('.btn').forEach(e =>{
             e.classList.remove('active')

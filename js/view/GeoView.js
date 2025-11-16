@@ -142,7 +142,7 @@ class GeoView{
                 <div class="row">
                     <h1>Hourly forecast</h1>
                     <div class="btn-days">
-                        <button>
+                        <button class="toggle">
                             <p>${dayWhether.date[0]}</p>
                             <img src="public/images/icon-dropdown.svg" alt="" />
                         </button>
