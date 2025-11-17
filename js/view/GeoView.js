@@ -149,13 +149,13 @@ class GeoView{
                     </div>
                 </div>
                 <div class="days-select hidden">
-                    <button>Monday</button>
-                    <button>Tuesday</button>
-                    <button>Wednesday</button>
-                    <button>Thursday</button>
-                    <button class="active">Friday</button>
-                    <button>saturday</button>
-                    <button>sunday</button>
+                    <button class="day ${dayWhether.date[0] === 'Mon' ? 'active' : ''}">Monday</button>
+                    <button class="day ${dayWhether.date[0] === 'Tue' ? 'active' : ''}">Tuesday</button>
+                    <button class="day ${dayWhether.date[0] === 'Wed' ? 'active' : ''}">Wednesday</button>
+                    <button class="day ${dayWhether.date[0] === 'Thu' ? 'active' : ''}">Thursday</button>
+                    <button class="day ${dayWhether.date[0] === 'Fri' ? 'active' : ''}">Friday</button>
+                    <button class="day ${dayWhether.date[0] === 'Sat' ? 'active' : ''}">saturday</button>
+                    <button class="day ${dayWhether.date[0] === 'Sun' ? 'active' : ''}">sunday</button>
                 </div>
                 </div>
                 <div class="whether-Hours">

@@ -135,8 +135,9 @@ const add_date_country = function(timezone){
 const editDates = function(data){
     const tz = data.timezone;
     const ftr = new Intl.DateTimeFormat('en-Us',{'weekday':'short',timeZone:tz})
+    // data.daily.time = 
     data.daily.time = data.daily.time.map(el=>{
-        const date = new Date(el + 'T00:00:00')
+        const date = new Date(el + 'T00:00:00');
         return ftr.format(date)
     })
 
@@ -147,7 +148,7 @@ export const geoLocation = async function(lat,long){
     try{
         const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=auto`);
         const data = await res.json();
-        console.log(data);
+        whetherData.geoLocation.dates = data.daily.time;
         editDates(data)
         whetherData.geoLocation.CurrentWhether = add_Current_Whether(data)
         whetherData.geoLocation.DailyWhether =  add_Daily_Whether(data)
@@ -178,7 +179,7 @@ export const Searching = async function(Search){
 
         const res2 = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${SearchedCountry.latitude}&longitude=${SearchedCountry.longitude}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation&timezone=${SearchedCountry.timeZone}`);
         const resault = await res2.json();
-
+        whetherData.SearchedData.dates = resault.daily.time;
         editDates(resault)
         whetherData.SearchedData.CurrentWhether = add_Current_Whether(resault)
         whetherData.SearchedData.DailyWhether =  add_Daily_Whether(resault)
@@ -229,4 +230,8 @@ export const switchData = function(clickedBtn,activeBtn){
     }
 
     return curData;
+}
+console.log(whetherData);
+const switchDays = async function(day){
+
 }

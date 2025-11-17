@@ -53,13 +53,13 @@ const controlSwitch = async function(clickedBtn){
     }
 }
 
-const controlDaySwitch = function(){
-    console.log('helllo');
+const controlDaySwitch = function(day){
+    console.log(day);
 }
 const input = function(){
     ControlLocation();
     SearchView.handler(controlSearch);
     dropDownBarView.unitsClick(controlSwitch);
-    daysDropDown.toggleClass();
+    daysDropDown.toggleClass(controlDaySwitch);
 }
 input();
