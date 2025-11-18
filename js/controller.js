@@ -53,8 +53,9 @@ const controlSwitch = async function(clickedBtn){
     }
 }
 
-const controlDaySwitch = function(day){
-    console.log(day);
+const controlDaySwitch = async function(day){
+    await model.switchDays(day);
+    GeoView.render(model.whetherData.SwitchDays)
 }
 const input = function(){
     ControlLocation();

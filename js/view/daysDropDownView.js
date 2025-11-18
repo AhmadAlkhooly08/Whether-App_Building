@@ -24,7 +24,7 @@ class daysDropDown{
                     el.classList.remove('active')
                 })
                 day.classList.add('active');
-                
+
                 handler(day.innerText)
             }
 
