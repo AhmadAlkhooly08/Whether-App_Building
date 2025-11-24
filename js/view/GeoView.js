@@ -42,6 +42,19 @@ class GeoView{
         const curWhether = this._data.CurrentWhether;
         const dayWhether = this._data.DailyWhether;
         const hourlyWhether = this._data.HourlyWether;
+        const shortDays = this._data.shortDays;
+        const fullDays = this._data.fullDay;
+        const activeDay = this._data.activeDay;
+        const curImg = function(data){
+            if(data === 0 || data === 1) return '/images/icon-sunny.webp';
+            if(data === 2) return "/images/icon-partly-cloudy.webp";
+            if(data === 3 ) return "/images/icon-overcast.webp";
+            if(data >=61 && data <= 67 || data >=80 && data <=82) return "/images/icon-rain.webp";
+            if(data >= 51 && data <= 57) return "/images/icon-drizzle.webp";
+            if(data === 45 || data === 48) return "/images/icon-fog.webp";
+            if(data >= 95 && data <= 99) return "/images/icon-storm.webp";
+            if(data >= 71 && data <= 75 || data === 85 || data === 86) return "/images/icon-snow.webp";
+        };
         return`
             <div class="first-section">
                 <div class="bg-today">
@@ -51,7 +64,7 @@ class GeoView{
                 </div>
 
                 <div class="temprature">
-                    <img src="${iconSunny}" alt="">
+                    <img src="${curImg(curWhether.weathercode)}" alt="">
                     <h1>${curWhether.Tempreture}${this._data.unit}</h1>
                 </div>
                 </div>
@@ -78,56 +91,56 @@ class GeoView{
                 <h3>Daily forecast</h3>
                 <div class="days-Whether ${this._data.unit === '°F' ? 'felsius' : ''}">
                     <div class="whether-days ${this._data.unit === '°F' ? 'hidden' : ''}">
-                    <h3>${dayWhether.date[0]}</h3>
-                    <img src="/images/icon-rain.webp" alt="">
+                    <h3>${shortDays[0]}</h3>
+                    <img src="${curImg(dayWhether.weathercode[0])}" alt="">
                     <div class="days-percentege">
                         <h4>${dayWhether.maxTempreture[0]}${this._data.unit}</h4>
                         <h4>${dayWhether.minTempreture[0]}${this._data.unit}</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>${dayWhether.date[1]}</h3>
-                    <img src="/images/icon-drizzle.webp" alt="">
+                    <h3>${shortDays[1]}</h3>
+                    <img src="${curImg(dayWhether.weathercode[1])}" alt="">
                     <div class="days-percentege">
                         <h4>${dayWhether.maxTempreture[1]}${this._data.unit}</h4>
                         <h4>${dayWhether.minTempreture[1]}${this._data.unit}</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>${dayWhether.date[2]}</h3>
-                    <img src="/images/icon-sunny.png" alt="">
+                    <h3>${shortDays[2]}</h3>
+                    <img src="${curImg(dayWhether.weathercode[2])}" alt="">
                     <div class="days-percentege">
                         <h4>${dayWhether.maxTempreture[2]}${this._data.unit}</h4>
                         <h4>${dayWhether.minTempreture[2]}${this._data.unit}</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>${dayWhether.date[3]}</h3>
-                    <img src="/images/icon-partly-cloudy.webp" alt="">
+                    <h3>${shortDays[3]}</h3>
+                    <img src="${curImg(dayWhether.weathercode[3])}" alt="">
                     <div class="days-percentege">
                         <h4>${dayWhether.maxTempreture[3]}${this._data.unit}</h4>
                         <h4>${dayWhether.minTempreture[3]}${this._data.unit}</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>${dayWhether.date[4]}</h3>
-                    <img src="/images/icon-storm.webp" alt="">
+                    <h3>${shortDays[4]}</h3>
+                    <img src="${curImg(dayWhether.weathercode[4])}" alt="">
                     <div class="days-percentege">
                         <h4>${dayWhether.maxTempreture[4]}${this._data.unit}</h4>
                         <h4>${dayWhether.minTempreture[4]}${this._data.unit}</h4>
                     </div>
                     </div>
                     <div class="whether-days">
-                    <h3>${dayWhether.date[5]}</h3>
-                    <img src="/images/icon-snow.webp" alt="">
+                    <h3>${shortDays[5]}</h3>
+                    <img src="${curImg(dayWhether.weathercode[5])}" alt="">
                     <div class="days-percentege">
                         <h4>${dayWhether.maxTempreture[5]}${this._data.unit}</h4>
                         <h4>${dayWhether.minTempreture[5]}${this._data.unit}</h4>
                     </div>
                     </div>
                     <div class="whether-days ${this._data.unit === '°F' ? 'hidden' : ''}">
-                    <h3>${dayWhether.date[6]}</h3>
-                    <img src="public/images/icon-fog.webp" alt="">
+                    <h3>${shortDays[6]}</h3>
+                    <img src="${curImg(dayWhether.weathercode[6])}" alt="">
                     <div class="days-percentege">
                         <h4>${dayWhether.maxTempreture[6]}${this._data.unit}</h4>
                         <h4>${dayWhether.minTempreture[6]}${this._data.unit}</h4>
@@ -143,46 +156,47 @@ class GeoView{
                     <h1>Hourly forecast</h1>
                     <div class="btn-days">
                         <button class="toggle">
-                            <p>${dayWhether.date[0]}</p>
+                            <p>${shortDays.find(el=> el === activeDay.slice(0,3))}
+                            </p>
                             <img src="public/images/icon-dropdown.svg" alt="" />
                         </button>
                     </div>
                 </div>
                 <div class="days-select hidden">
-                    <button class="day active">${this._data.fullDay[0]}</button>
-                    <button class="day">${this._data.fullDay[1]}</button>
-                    <button class="day">${this._data.fullDay[2]}</button>
-                    <button class="day">${this._data.fullDay[3]}</button>
-                    <button class="day">${this._data.fullDay[4]}</button>
-                    <button class="day">${this._data.fullDay[5]}</button>
-                    <button class="day">${this._data.fullDay[6]}</button>
+                    <button class="day ${activeDay === fullDays[0] ? 'active' : ''}">${fullDays[0]}</button>
+                    <button class="day ${activeDay === fullDays[1] ? 'active' : ''}">${fullDays[1]}</button>
+                    <button class="day ${activeDay === fullDays[2] ? 'active' : ''}">${fullDays[2]}</button>
+                    <button class="day ${activeDay === fullDays[3] ? 'active' : ''}">${fullDays[3]}</button>
+                    <button class="day ${activeDay === fullDays[4] ? 'active' : ''}">${fullDays[4]}</button>
+                    <button class="day ${activeDay === fullDays[5] ? 'active' : ''}">${fullDays[5]}</button>
+                    <button class="day ${activeDay === fullDays[6] ? 'active' : ''}">${fullDays[6]}</button>
                 </div>
                 </div>
                 <div class="whether-Hours">
                 <div class="slide">
                     <div class="img-section">
-                    <img src="/images/icon-partly-cloudy.webp" alt="">
+                    <img src="${curImg(hourlyWhether.weathercode[0])}" alt="">
                     <p>${hourlyWhether.time[0]} ${hourlyWhether.meridiem[0]}</p>
                     </div>
                     <h4>${hourlyWhether.tempreture[0]}${this._data.unit}</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="/images/icon-overcast.webp" alt="">
+                    <img src="${curImg(hourlyWhether.weathercode[1])}" alt="">
                     <p>${hourlyWhether.time[1]} ${hourlyWhether.meridiem[1]}</p>
                     </div>
                     <h4>${hourlyWhether.tempreture[1]}${this._data.unit}</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="/images/icon-sunny.png" alt="">
+                    <img src="${curImg(hourlyWhether.weathercode[2])}" alt="">
                     <p>${hourlyWhether.time[2]} ${hourlyWhether.meridiem[2]}</p>
                     </div>
                     <h4>${hourlyWhether.tempreture[2]}${this._data.unit}</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="/images/icon-overcast.webp" alt="">
+                    <img src="${curImg(hourlyWhether.weathercode[3])}" alt="">
                     <p>${hourlyWhether.time[3]} ${hourlyWhether.meridiem[3]}</p>
                     </div>
                     <h4>${hourlyWhether.tempreture[3]}${this._data.unit}</h4>
@@ -190,28 +204,28 @@ class GeoView{
 
                 <div class="slide">
                     <div class="img-section">
-                    <img src="/images/icon-rain.webp" alt="">
+                    <img src="${curImg(hourlyWhether.weathercode[4])}" alt="">
                     <p>${hourlyWhether.time[4]} ${hourlyWhether.meridiem[4]}</p>
                     </div>
                     <h4>${hourlyWhether.tempreture[4]}${this._data.unit}</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="/images/icon-storm.webp" alt="">
+                    <img src="${curImg(hourlyWhether.weathercode[5])}" alt="">
                     <p>${hourlyWhether.time[5]} ${hourlyWhether.meridiem[5]}</p>
                     </div>
                     <h4>${hourlyWhether.tempreture[5]}${this._data.unit}</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="/images/icon-fog.webp" alt="">
+                    <img src="${curImg(hourlyWhether.weathercode[6])}" alt="">
                     <p>${hourlyWhether.time[6]} ${hourlyWhether.meridiem[6]}</p>
                     </div>
                     <h4>${hourlyWhether.tempreture[6]}${this._data.unit}</h4>
                 </div>
                 <div class="slide">
                     <div class="img-section">
-                    <img src="/images/icon-overcast.webp" alt="">
+                    <img src="${curImg(hourlyWhether.weathercode[7])}" alt="">
                     <p>${hourlyWhether.time[7]} ${hourlyWhether.meridiem[7]}</p>
                     </div>
                     <h4>${hourlyWhether.tempreture[7]}${this._data.unit}</h4>

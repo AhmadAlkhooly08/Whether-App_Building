@@ -7,6 +7,8 @@ import daysDropDown from './view/daysDropDownView.js'
 const ControlLocation = async function(){
     dropDownBarView.disableBtn();
     loadingView.render();
+    model.whetherData.SwitchDays = '';
+
     if(!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(async function(position){
         try{
@@ -28,7 +30,7 @@ const controlSearch = async function(value){
         dropDownBarView.disableBtn();
         dropDownBarView.renderActive();
         loadingView.render();
-
+        model.whetherData.SwitchDays = '';
         await model.Searching(value)
         GeoView.render(model.whetherData.SearchedData);
         model.getCurrentObj(document.querySelector('.location h2').textContent);
@@ -39,6 +41,11 @@ const controlSearch = async function(value){
         SearchView.renderError()
         console.log(err);
     }
+}
+
+const controlSearchResaults = async function(e){
+    console.log(e);
+    model.SearchResault(e);
 }
 
 const controlSwitch = async function(clickedBtn){
@@ -54,12 +61,15 @@ const controlSwitch = async function(clickedBtn){
 }
 
 const controlDaySwitch = async function(day){
+    daysDropDown.loading();
     await model.switchDays(day);
+    console.log(day);
     GeoView.render(model.whetherData.SwitchDays)
 }
 const input = function(){
     ControlLocation();
     SearchView.handler(controlSearch);
+    SearchView.keyUp(controlSearchResaults);
     dropDownBarView.unitsClick(controlSwitch);
     daysDropDown.toggleClass(controlDaySwitch);
 }

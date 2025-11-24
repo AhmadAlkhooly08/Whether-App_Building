@@ -1,13 +1,6 @@
 
 class daysDropDown{
-    _parentEl= document.querySelector('.main-section');;
-    _hiddenToggle;
-
-    // constructor(){
-
-    //     this.toggleClass()        
-    // }
-
+    _parentEl= document.querySelector('.main-section');
     toggleClass(handler){
         this._parentEl.addEventListener('click',(e)=>{
             const btn = e.target.closest('.toggle');
@@ -17,21 +10,60 @@ class daysDropDown{
             }
 
             const day = e.target.closest('.day');
-            const allDays = document.querySelectorAll('.day');
 
             if(day){
-                allDays.forEach(el=>{
-                    el.classList.remove('active')
-                })
-                day.classList.add('active');
-
                 handler(day.innerText)
             }
 
         })
     }
 
+    loading(){
+        const loadingParent = document.querySelector('.second-section');
+        console.log(loadingParent);
+        return loadingParent.innerHTML =`
+                <div class="dropDown-Days">
+                <div class="row">
+                    <h1>Hourly forecast</h1>
+                    <div class="btn-days">
+                    <button>
+                        <p>-</p>
+                        <img src="public/images/icon-dropdown.svg" alt="" />
+                    </button>
+                    </div>
+                </div>
+                <div class="days-select hidden">
+                    <button>Monday</button>
+                    <button>Tuesday</button>
+                    <button>Wednesday</button>
+                    <button>Thursday</button>
+                    <button class="active">Friday</button>
+                    <button>saturday</button>
+                    <button>sunday</button>
+                </div>
+                </div>
+                <div class="whether-Hours">
+                <div class="slide loading-hourly">
+                </div>
+                <div class="slide loading-hourly">
+                </div>
+                <div class="slide loading-hourly">
+                </div>
+                <div class="slide loading-hourly">
+                </div>
 
+                <div class="slide loading-hourly">
+                </div>
+                <div class="slide loading-hourly">
+                </div>
+                <div class="slide loading-hourly">
+                </div>
+                <div class="slide loading-hourly">
+                </div>
+
+                </div>          
+            `
+    }
 }
 
 export default new daysDropDown();
