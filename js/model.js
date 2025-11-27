@@ -2,6 +2,7 @@ export const whetherData = {
     geoLocation:{},
     SearchedData:{},
     SwitchDays:{},
+    SearchResaults:[],
 }
 
 let curData= null;
@@ -181,9 +182,9 @@ export const geoLocation = async function(lat,long){
     }
 }
 
-export const Searching = async function(Search){
+export const Searching = async function(Search,clickedValue = undefined){
     try{
-        const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${Search}`)
+        const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${clickedValue === undefined ? Search : clickedValue}`)
         const data = await res.json();
 
         const {results} = data;
@@ -228,12 +229,11 @@ export const Searching = async function(Search){
     }
 }
 export const SearchResault = async function(e){
-    // let str = e++;
-    // console.log(str);
     const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${e}`)
     const data = await res.json();
-    const solution = data.results?.slice(0,4);
-    console.log(solution);
+    const solution = data.results?.slice(0,4).map(el=> el?.name);
+    const countrys = [...new Set(solution)];
+    whetherData.SearchResaults = countrys;
 }
 //! Switching data by Dom 
 export const switchData = function(clickedBtn,activeBtn){

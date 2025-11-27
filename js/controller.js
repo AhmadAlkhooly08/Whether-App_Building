@@ -44,8 +44,26 @@ const controlSearch = async function(value){
 }
 
 const controlSearchResaults = async function(e){
+    try{
+        await model.SearchResault(e);
+        SearchView.renderRes(model.whetherData.SearchResaults)
+
+    }catch(err){
+        console.log(err);
+    }
+
+}
+
+const controlSearchKey = async function(e){
+    try{
+        await model.Searching(undefined,e);
+        GeoView.render(model.whetherData.SearchedData);
+        SearchView.renewPage()
+
+    }catch(err){
+        console.log(err);
+    }
     console.log(e);
-    model.SearchResault(e);
 }
 
 const controlSwitch = async function(clickedBtn){
@@ -70,6 +88,7 @@ const input = function(){
     ControlLocation();
     SearchView.handler(controlSearch);
     SearchView.keyUp(controlSearchResaults);
+    SearchView.getValue(controlSearchKey)
     dropDownBarView.unitsClick(controlSwitch);
     daysDropDown.toggleClass(controlDaySwitch);
 }
