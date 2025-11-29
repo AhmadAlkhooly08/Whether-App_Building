@@ -32,13 +32,16 @@ const controlSearch = async function(value){
         loadingView.render();
         model.whetherData.SwitchDays = '';
         await model.Searching(value)
+        SearchView.renewPage();
         GeoView.render(model.whetherData.SearchedData);
         model.getCurrentObj(document.querySelector('.location h2').textContent);
 
         dropDownBarView.enableBtn();
 
     }catch(err){
-        SearchView.renderError()
+        SearchView.renderError();
+        SearchView.renewPage();
+
         console.log(err);
     }
 }
@@ -63,7 +66,6 @@ const controlSearchKey = async function(e){
     }catch(err){
         console.log(err);
     }
-    console.log(e);
 }
 
 const controlSwitch = async function(clickedBtn){
