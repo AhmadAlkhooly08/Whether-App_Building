@@ -206,11 +206,11 @@ export const Searching = async function(Search,clickedValue = undefined){
 
         const fullDays = resault.daily.time.slice().map(el=>{
             const date = new Date(el + 'T00:00:00Z');
-            return date.toLocaleDateString('en-Us',{'weekday':'long',timeZone:resault.timezone});
+            return date.toLocaleDateString('en-Us',{'weekday':'long'});
         })
         const shortDays = resault.daily.time.slice().map(el=>{
             const date = new Date(el + 'T00:00:00Z');
-            return date.toLocaleDateString('en-Us',{'weekday':'short',timeZone:resault.timezone});
+            return date.toLocaleDateString('en-Us',{'weekday':'short'});
         })
         whetherData.SearchedData.fullDay = fullDays;
         whetherData.SearchedData.shortDays = shortDays;
