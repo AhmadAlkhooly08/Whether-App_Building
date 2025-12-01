@@ -204,13 +204,17 @@ export const Searching = async function(Search,clickedValue = undefined){
         console.log(resault);
         const d =new Date(new Date().toLocaleString('en-Us',{'timeZone': resault.timezone}));
 
-        const fullDays = resault.daily.time.slice().map(el=>{
-            const date = new Date(el + 'T00:00:00Z');
-            return date.toLocaleDateString('en-Us',{'weekday':'long'});
+        const fullDays = resault.daily.time.map(el=>{
+            const [year,month,day] = el.split('-').map(Number);
+            console.log(year,month,day);
+            const date = new Date(Date.UTC(year,month-1,day));
+            return date.toLocaleDateString('en-Us',{'weekday':'long','timeZone': SearchedCountry.timeZone});
         })
         const shortDays = resault.daily.time.slice().map(el=>{
-            const date = new Date(el + 'T00:00:00Z');
-            return date.toLocaleDateString('en-Us',{'weekday':'short'});
+            const [year,month,day] = el.split('-').map(Number);
+            // console.log(year,month,day);
+            const date = new Date(Date.UTC(year,month-1,day));
+            return date.toLocaleDateString('en-Us',{'weekday':'short','timeZone':  SearchedCountry.timeZone});
         })
         whetherData.SearchedData.fullDay = fullDays;
         whetherData.SearchedData.shortDays = shortDays;
@@ -226,7 +230,7 @@ export const Searching = async function(Search,clickedValue = undefined){
         whetherData.SearchedData.long = resault.longitude;
         whetherData.SearchedData.name =  SearchedCountry.name ; 
         whetherData.SearchedData.activeDay =  fullDays[0]; 
-        whetherData.SearchedData.timeZone = resault.timezone;
+        whetherData.SearchedData.timeZone = SearchedCountry.timeZone;
         console.log(whetherData);
 
     }catch(err){
