@@ -109,7 +109,7 @@ const add_Daily_Whether = function(data){
 
 }
 const add_Hourly_whether = function(data,switchDate = undefined,h=undefined){
-    let now = switchDate ? new Date(switchDate) : new Date();
+    let now = new Date(switchDate ? new Date(switchDate) : new Date());
     const month = String(h ? h?.getMonth() +1 : now.getMonth() +1).padStart(2,'0');
     const date = String(h ? h?.getDate() : now.getDate()).padStart(2,'0');
     const hour = String(h ? h?.getHours() : now.getHours()).padStart(2,'0');
@@ -136,7 +136,7 @@ const add_Hourly_whether = function(data,switchDate = undefined,h=undefined){
 }
 
 const add_date_country = function(timezone,curDate = undefined){
-    const date = curDate ? new Date(curDate) : new Date();
+    const date = (curDate ? new Date(curDate) : new Date());
     const all_date = {
         weekday: 'long',
         month:'short',
@@ -202,19 +202,14 @@ export const Searching = async function(Search,clickedValue = undefined){
         const res2 = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${SearchedCountry.latitude}&longitude=${SearchedCountry.longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode&hourly=temperature_2m,weathercode&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation,weathercode&timezone=${SearchedCountry.timeZone}`);
         const resault = await res2.json();
         console.log(resault);
-        const d =new Date(new Date().toLocaleString('en-Us',{'timeZone': resault.timezone}));
+        const d =new Date(new Date().toLocaleString('en-Us',{'timeZone': SearchedCountry.timeZone}));
 
         const fullDays = resault.daily.time.map(el=>{
-            const [year,month,day] = el.split('-').map(Number);
-            console.log(year,month,day);
-            const date = new Date(Date.UTC(year,month-1,day));
-            return date.toLocaleDateString('en-Us',{'weekday':'long','timeZone': SearchedCountry.timeZone});
+            return new Date(el + "T12:00:00").toLocaleDateString('en-Us',{'weekday':'long',         'timeZone': SearchedCountry.timeZone});
+            
         })
         const shortDays = resault.daily.time.slice().map(el=>{
-            const [year,month,day] = el.split('-').map(Number);
-            // console.log(year,month,day);
-            const date = new Date(Date.UTC(year,month-1,day));
-            return date.toLocaleDateString('en-Us',{'weekday':'short','timeZone':  SearchedCountry.timeZone});
+            return new Date(el + "T12:00:00").toLocaleDateString('en-Us',{'weekday':'short',         'timeZone': SearchedCountry.timeZone});
         })
         whetherData.SearchedData.fullDay = fullDays;
         whetherData.SearchedData.shortDays = shortDays;
@@ -290,8 +285,8 @@ export const switchDays = async function(day){
 
         if(day == curData.fullDay[0]) return whetherData.SwitchDays = curData;
         whetherData.SwitchDays = structuredClone(curData);
-        whetherData.SwitchDays.HourlyWether = add_Hourly_whether(data,newDate);
-        whetherData.SwitchDays.date = add_date_country(data.timezone,newDate);
+        whetherData.SwitchDays.HourlyWether = add_Hourly_whether(data,`${newDate}T12:00:00`);
+        whetherData.SwitchDays.date = add_date_country(data.timezone,`${newDate}T12:00:00`);
         whetherData.SwitchDays.activeDay = day;
         console.log(whetherData.SwitchDays);
 

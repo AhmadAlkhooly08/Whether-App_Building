@@ -60,8 +60,8 @@ const controlSearchResaults = async function(e){
 const controlSearchKey = async function(e){
     try{
         await model.Searching(undefined,e);
-        GeoView.render(model.whetherData.SearchedData);
         SearchView.renewPage()
+        GeoView.render(model.whetherData.SearchedData);
 
     }catch(err){
         console.log(err);
