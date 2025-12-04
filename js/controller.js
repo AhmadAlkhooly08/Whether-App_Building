@@ -34,7 +34,7 @@ const controlSearch = async function(value){
         await model.Searching(value)
         SearchView.renewPage();
         GeoView.render(model.whetherData.SearchedData);
-        model.getCurrentObj(document.querySelector('.location h2').textContent);
+        model.getCurrentObj(value);
 
         dropDownBarView.enableBtn();
 
@@ -60,6 +60,7 @@ const controlSearchResaults = async function(e){
 const controlSearchKey = async function(e){
     try{
         await model.Searching(undefined,e);
+        model.getCurrentObj(e);
         SearchView.renewPage()
         GeoView.render(model.whetherData.SearchedData);
 

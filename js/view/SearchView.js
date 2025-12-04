@@ -23,6 +23,10 @@ class SearchView{
         let strBtn =[];
         data.forEach((el) => strBtn.push(el !== undefined ? `<button>${el}</button>` : ''));
         this._resault.innerHTML = strBtn?.join('');
+        window.addEventListener('click',()=>{
+            if(this._resault.classList.contains('hidden')) return;
+            else this._resault.classList.add('hidden')
+        })
     }
     getValue(handler){
         this._resault.addEventListener('click',(e)=>{
@@ -35,6 +39,7 @@ class SearchView{
     renewPage(){
         this._resault.classList.add('hidden');
         document.querySelector('.text-field').value = '';
+        document.querySelector('.dropDown').classList.add('hidden');
     }
     handler(handel){
         this._SearchBar.addEventListener('submit',(e) =>{

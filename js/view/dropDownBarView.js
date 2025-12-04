@@ -5,7 +5,11 @@ class dropDown{
     _btn = document.querySelectorAll('.btn');
     constructor(){
         this._units.addEventListener('click',this.unitsDropDown.bind(this));
-        // window.addEventListener('click',this.unitsDropDown.bind(this))
+        window.addEventListener('click',(e)=>{
+            if(e.target.closest('.btn__Units') !== document.querySelector('.btn__Units')){
+                this.closeDropdown();
+            }
+        })
     }
     unitsDropDown(){
         this._hiddenUnits.classList.toggle('hidden')

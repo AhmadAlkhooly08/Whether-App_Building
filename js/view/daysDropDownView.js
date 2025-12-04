@@ -1,6 +1,8 @@
 
 class daysDropDown{
     _parentEl= document.querySelector('.main-section');
+    _btnToggle = document.querySelector('.days-select');
+
     toggleClass(handler){
         this._parentEl.addEventListener('click',(e)=>{
             const btn = e.target.closest('.toggle');
@@ -14,7 +16,11 @@ class daysDropDown{
             if(day){
                 handler(day.innerText)
             }
-
+            window.addEventListener('click',(e)=>{
+                if(e.target.closest('.btn-days') !==  document.querySelector('.btn-days')){
+                    document.querySelector('.days-select').classList.add('hidden');
+                }
+            })
         })
     }
 

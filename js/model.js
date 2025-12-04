@@ -7,15 +7,17 @@ export const whetherData = {
 
 let curData= null;
 let copy = null;
-
+let orijinal = null;
 export const getCurrentObj = function(text){
     curData = null;
     for(const key in whetherData){
+        console.log(text);
         const data = whetherData[key];
         if(!data.CurrentWhether) continue;
-        if(data.CurrentWhether.location === text || data.name === text){
+        if(data.CurrentWhether.location === text || data.key === text){
            curData = data;
            copy = structuredClone(data);
+           orijinal = structuredClone(data);
            break;
         }
     }
@@ -32,7 +34,7 @@ export const curUnits ={
 
 const convertTempruter = function(unit){
 
-    const curCopy = structuredClone(curData);
+    const curCopy = structuredClone(orijinal);
     if(unit === 'F'){
         copy.CurrentWhether.Tempreture = Math.trunc((curCopy.CurrentWhether.Tempreture * 9/5) + 32);
         copy.CurrentWhether.apparentTempreture = Math.trunc((curCopy.CurrentWhether.apparentTempreture * 9/5) + 32);
@@ -53,12 +55,12 @@ const convertTempruter = function(unit){
     return copy;
 }
 const convertSpeed = function(unit){
-    const curCopy = structuredClone(curData);
+    const curCopy = structuredClone(orijinal);
     if(unit === 'mph'){
-        copy.CurrentWhether.windSpeed = Math.trunc(curCopy.CurrentWhether.windSpeed * 0.621371);
+        copy.CurrentWhether.windSpeed = Math.round(curCopy.CurrentWhether.windSpeed * 0.621371);
         copy.CurrentWhether.SpeedUnit = 'mph';
     }else{
-        copy.CurrentWhether.windSpeed = Math.round(copy.CurrentWhether.windSpeed * 1.60934 + 0.6);
+        copy.CurrentWhether.windSpeed = Math.round(copy.CurrentWhether.windSpeed * 1.60934);
         copy.CurrentWhether.SpeedUnit = 'km/h';
     }
 
@@ -67,7 +69,7 @@ const convertSpeed = function(unit){
 }
 
 const convertprep = function(unit){
-    const curCopy = structuredClone(curData);
+    const curCopy = structuredClone(orijinal);
 
     if(unit === 'in'){
         copy.CurrentWhether.precipitation = +(curCopy.CurrentWhether.precipitation / 25.4).toFixed(1);
@@ -226,6 +228,8 @@ export const Searching = async function(Search,clickedValue = undefined){
         whetherData.SearchedData.name =  SearchedCountry.name ; 
         whetherData.SearchedData.activeDay =  fullDays[0]; 
         whetherData.SearchedData.timeZone = SearchedCountry.timeZone;
+        whetherData.SearchedData.key = clickedValue === undefined ? Search : clickedValue;
+
         console.log(whetherData);
 
     }catch(err){
