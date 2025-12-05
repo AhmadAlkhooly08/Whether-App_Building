@@ -60,7 +60,8 @@ const convertSpeed = function(unit){
         copy.CurrentWhether.windSpeed = Math.round(curCopy.CurrentWhether.windSpeed * 0.621371);
         copy.CurrentWhether.SpeedUnit = 'mph';
     }else{
-        copy.CurrentWhether.windSpeed = Math.round(copy.CurrentWhether.windSpeed * 1.60934);
+        curCopy.CurrentWhether.windSpeed = curData.CurrentWhether.windSpeed;
+        copy.CurrentWhether.windSpeed = Math.round(curCopy.CurrentWhether.windSpeed * 1.60934);
         copy.CurrentWhether.SpeedUnit = 'km/h';
     }
 
