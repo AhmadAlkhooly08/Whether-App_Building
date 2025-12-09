@@ -288,10 +288,10 @@ export const switchDays = async function(day){
         
         console.log(curData);
 
-        if(day == curData.fullDay[0]) return whetherData.SwitchDays = curData;
         if(curData.unit === '°F') return convertTempruter('F');
         if(curData.SpeedUnit === 'mph') return convertSpeed('mph');
         if(curData.sembol === 'in') return convertprep('in');
+        if(day == curData.fullDay[0]) return whetherData.SwitchDays = curData;
 
         whetherData.SwitchDays = structuredClone(curData);
         whetherData.SwitchDays.HourlyWether = add_Hourly_whether(data,`${newDate}T12:00:00`);
