@@ -43,11 +43,11 @@ const convertTempruter = function(unit){
         copy.HourlyWether.tempreture = curCopy.HourlyWether.tempreture.map(e => Math.trunc((e * 9/5) + 32));
         copy.unit = '°F';
     }else{
-        copy.CurrentWhether.Tempreture = Math.round((copy.CurrentWhether.Tempreture -32) * 5/9);
-        copy.CurrentWhether.apparentTempreture = Math.round((copy.CurrentWhether.apparentTempreture - 32) * 5/9);
-        copy.DailyWhether.maxTempreture = copy.DailyWhether.maxTempreture.map(e => Math.round((e - 32) * 5/9));
-        copy.DailyWhether.minTempreture = copy.DailyWhether.minTempreture.map(e => Math.round((e - 32) * 5/9));
-        copy.HourlyWether.tempreture = copy.HourlyWether.tempreture.map(e => Math.round((e - 32) * 5/9));
+        copy.CurrentWhether.Tempreture = curData.CurrentWhether.Tempreture;
+        copy.CurrentWhether.apparentTempreture = curData.CurrentWhether.apparentTempreture;
+        copy.DailyWhether.maxTempreture = curData.DailyWhether.maxTempreture;
+        copy.DailyWhether.minTempreture = curData.DailyWhether.minTempreture;
+        copy.HourlyWether.tempreture = curData.HourlyWether.tempreture;
 
         copy.unit = '°';
     }
@@ -61,7 +61,7 @@ const convertSpeed = function(unit){
         copy.CurrentWhether.SpeedUnit = 'mph';
     }else{
         curCopy.CurrentWhether.windSpeed = curData.CurrentWhether.windSpeed;
-        copy.CurrentWhether.windSpeed = Math.round(curCopy.CurrentWhether.windSpeed * 1.60934);
+        copy.CurrentWhether.windSpeed = curData.CurrentWhether.windSpeed;
         copy.CurrentWhether.SpeedUnit = 'km/h';
     }
 
@@ -76,13 +76,13 @@ const convertprep = function(unit){
         copy.CurrentWhether.precipitation = +(curCopy.CurrentWhether.precipitation / 25.4).toFixed(1);
         copy.CurrentWhether.sembol = 'in';      
     }else{
-        copy.CurrentWhether.precipitation = +(copy.CurrentWhether.precipitation * 25.4).toFixed(1);
-        // copy = structuredClone(curCopy);
+        copy.CurrentWhether.precipitation = curData.CurrentWhether.precipitation;
+
         copy.CurrentWhether.sembol = 'mm';  
 
     }
     curUnits.prep = unit;
-    // copy2 = structuredClone(copy);
+
     return copy;
 }
 
@@ -285,12 +285,6 @@ export const switchDays = async function(day){
         const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${curData.lat}&longitude=${curData.long}&hourly=temperature_2m,wind_speed_10m,precipitation,weathercode&start_date=${newDate}&end_date=${newDate}&timezone=${curData.timeZone}`);
         const data = await res.json();
 
-        
-        console.log(curData);
-
-        if(curData.unit === '°F') return convertTempruter('F');
-        if(curData.SpeedUnit === 'mph') return convertSpeed('mph');
-        if(curData.sembol === 'in') return convertprep('in');
         if(day == curData.fullDay[0]) return whetherData.SwitchDays = curData;
 
         whetherData.SwitchDays = structuredClone(curData);
