@@ -11,7 +11,6 @@ let orijinal = null;
 export const getCurrentObj = function(text){
     curData = null;
     for(const key in whetherData){
-        console.log(text);
         const data = whetherData[key];
         if(!data.CurrentWhether) continue;
         if(data.CurrentWhether.location === text || data.key === text){
@@ -120,8 +119,6 @@ const add_Hourly_whether = function(data,switchDate = undefined,h=undefined){
     const find = `${h ? h?.getFullYear() : now.getFullYear()}-${month}-${date}T${hour}:00`;
     const setData = data.hourly.time.findIndex(el => el == find);
     const newData = data.hourly.time.slice(setData + 1,setData + 9);
-    // console.log(data.daily.time);
-    console.log(find,newData);
     return {
         tempreture: data.hourly.temperature_2m.slice(0,9).map(el=> Math.trunc(el)),
         time: newData.map(el=> el.slice(11,el.length -3)).map(el =>{
@@ -156,7 +153,6 @@ export const geoLocation = async function(lat,long){
     try{
         const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&daily=temperature_2m_max,temperature_2m_min,weathercode&hourly=temperature_2m,weathercode&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation,weathercode&timezone=auto`);
         const data = await res.json();
-        console.log(data);
         const fullDays = data.daily.time.slice().map(el=>{
             const date = new Date(el);
 
@@ -180,8 +176,6 @@ export const geoLocation = async function(lat,long){
         whetherData.geoLocation.long = data.longitude;
         whetherData.geoLocation.activeDay =  fullDays[0]; 
         whetherData.geoLocation.timeZone = data.timezone;
-        console.log(whetherData);
-        console.log(curData);
 
     }catch(err){
         console.log(err);
@@ -204,7 +198,6 @@ export const Searching = async function(Search,clickedValue = undefined){
 
         const res2 = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${SearchedCountry.latitude}&longitude=${SearchedCountry.longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode&hourly=temperature_2m,weathercode&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,precipitation,weathercode&timezone=${SearchedCountry.timeZone}`);
         const resault = await res2.json();
-        console.log(resault);
         const d =new Date(new Date().toLocaleString('en-Us',{'timeZone': SearchedCountry.timeZone}));
 
         const fullDays = resault.daily.time.map(el=>{
@@ -231,7 +224,6 @@ export const Searching = async function(Search,clickedValue = undefined){
         whetherData.SearchedData.timeZone = SearchedCountry.timeZone;
         whetherData.SearchedData.key = clickedValue === undefined ? Search : clickedValue;
 
-        console.log(whetherData);
 
     }catch(err){
         console.log(err);
@@ -291,10 +283,10 @@ export const switchDays = async function(day){
         whetherData.SwitchDays.HourlyWether = add_Hourly_whether(data,`${newDate}T12:00:00`);
         whetherData.SwitchDays.date = add_date_country(data.timezone,`${newDate}T12:00:00`);
         whetherData.SwitchDays.activeDay = day;
-        console.log(whetherData.SwitchDays);
 
     }catch(err){
         console.log(err);
     }
     
 }
+
