@@ -1,33 +1,34 @@
+class daysDropDown {
+  _parentEl = document.querySelector(".main-section");
+  _btnToggle = document.querySelector(".days-select");
 
-class daysDropDown{
-    _parentEl= document.querySelector('.main-section');
-    _btnToggle = document.querySelector('.days-select');
+  toggleClass(handler) {
+    this._parentEl.addEventListener("click", (e) => {
+      const btn = e.target.closest(".toggle");
 
-    toggleClass(handler){
-        this._parentEl.addEventListener('click',(e)=>{
-            const btn = e.target.closest('.toggle');
+      if (btn) {
+        document.querySelector(".days-select").classList.toggle("hidden");
+      }
 
-            if(btn){
-                document.querySelector('.days-select').classList.toggle('hidden');
-            }
+      const day = e.target.closest(".day");
 
-            const day = e.target.closest('.day');
+      if (day) {
+        handler(day.innerText);
+      }
+      window.addEventListener("click", (e) => {
+        if (
+          e.target.closest(".btn-days") !== document.querySelector(".btn-days")
+        ) {
+          document.querySelector(".days-select").classList.add("hidden");
+        }
+      });
+    });
+  }
 
-            if(day){
-                handler(day.innerText)
-            }
-            window.addEventListener('click',(e)=>{
-                if(e.target.closest('.btn-days') !==  document.querySelector('.btn-days')){
-                    document.querySelector('.days-select').classList.add('hidden');
-                }
-            })
-        })
-    }
-
-    loading(){
-        const loadingParent = document.querySelector('.second-section');
-        console.log(loadingParent);
-        return loadingParent.innerHTML =`
+  loading() {
+    const loadingParent = document.querySelector(".second-section");
+    console.log(loadingParent);
+    return (loadingParent.innerHTML = `
                 <div class="dropDown-Days">
                 <div class="row">
                     <h1>Hourly forecast</h1>
@@ -68,8 +69,8 @@ class daysDropDown{
                 </div>
 
                 </div>          
-            `
-    }
+            `);
+  }
 }
 
 export default new daysDropDown();

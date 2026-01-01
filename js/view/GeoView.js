@@ -1,4 +1,4 @@
-import iconSunny from '../../public/images/icon-sunny.webp';
+import iconSunny from "../../public/images/icon-sunny.webp";
 // import iconRain from '../../images/icon-rain.webp';
 // import iconDrizzle from '../../images/icon-drizzle.webp';
 // import iconPartlyCloudy from '../../images/icon-partly-cloudy.webp';
@@ -8,23 +8,22 @@ import iconSunny from '../../public/images/icon-sunny.webp';
 // import iconOvercast from '../../images/icon-overcast.webp';
 // import iconDropdown from '../../images/icon-dropdown.svg';
 
+class GeoView {
+  _parentEl = document.querySelector(".main-section");
+  _data;
+  render(data) {
+    this._data = data;
+    const markup = this._generateMarkup();
+    this.clear();
+    this._parentEl.insertAdjacentHTML("afterbegin", markup);
+  }
 
-class GeoView{
-    _parentEl= document.querySelector('.main-section')
-    _data;
-    render(data){
-        this._data = data;
-        const markup = this._generateMarkup();
-        this.clear();
-        this._parentEl.insertAdjacentHTML("afterbegin",markup);
-    }
+  clear() {
+    this._parentEl.innerHTML = "";
+  }
 
-    clear(){
-        this._parentEl.innerHTML = '';
-    }
-
-    renderError(){
-        const markup = `
+  renderError() {
+    const markup = `
             <div class="error">
                 <h1>
                     Couldnt reach to location 🚫
@@ -35,31 +34,35 @@ class GeoView{
             </div>
         `;
 
-        this._parentEl.innerHTML = '';
-        this._parentEl.insertAdjacentHTML("afterbegin",markup)
-    }
-    _generateMarkup(){
-        const curWhether = this._data.CurrentWhether;
-        const dayWhether = this._data.DailyWhether;
-        const hourlyWhether = this._data.HourlyWether;
-        const shortDays = this._data.shortDays;
-        const fullDays = this._data.fullDay;
-        const activeDay = this._data.activeDay;
-        const curImg = function(data){
-            if(data === 0 || data === 1) return '/images/icon-sunny.webp';
-            if(data === 2) return "/images/icon-partly-cloudy.webp";
-            if(data === 3 ) return "/images/icon-overcast.webp";
-            if(data >=61 && data <= 67 || data >=80 && data <=82) return "/images/icon-rain.webp";
-            if(data >= 51 && data <= 57) return "/images/icon-drizzle.webp";
-            if(data === 45 || data === 48) return "/images/icon-fog.webp";
-            if(data >= 95 && data <= 99) return "/images/icon-storm.webp";
-            if(data >= 71 && data <= 75 || data === 85 || data === 86) return "/images/icon-snow.webp";
-        };
-        return`
+    this._parentEl.innerHTML = "";
+    this._parentEl.insertAdjacentHTML("afterbegin", markup);
+  }
+  _generateMarkup() {
+    const curWhether = this._data.CurrentWhether;
+    const dayWhether = this._data.DailyWhether;
+    const hourlyWhether = this._data.HourlyWether;
+    const shortDays = this._data.shortDays;
+    const fullDays = this._data.fullDay;
+    const activeDay = this._data.activeDay;
+    const curImg = function (data) {
+      if (data === 0 || data === 1) return "/images/icon-sunny.webp";
+      if (data === 2) return "/images/icon-partly-cloudy.webp";
+      if (data === 3) return "/images/icon-overcast.webp";
+      if ((data >= 61 && data <= 67) || (data >= 80 && data <= 82))
+        return "/images/icon-rain.webp";
+      if (data >= 51 && data <= 57) return "/images/icon-drizzle.webp";
+      if (data === 45 || data === 48) return "/images/icon-fog.webp";
+      if (data >= 95 && data <= 99) return "/images/icon-storm.webp";
+      if ((data >= 71 && data <= 75) || data === 85 || data === 86)
+        return "/images/icon-snow.webp";
+    };
+    return `
             <div class="first-section">
                 <div class="bg-today">
                 <div class="location">
-                    <h2>${this._data.name ? this._data.name : curWhether.location}</h2>
+                    <h2>${
+                      this._data.name ? this._data.name : curWhether.location
+                    }</h2>
                     <h4>${this._data.date}</h4>
                 </div>
 
@@ -89,61 +92,95 @@ class GeoView{
 
                 <div class="daily-forecast">
                 <h3>Daily forecast</h3>
-                <div class="days-Whether ${this._data.unit === '°F' ? 'felsius' : ''}">
-                    <div class="whether-days ${this._data.unit === '°F' ? 'hidden' : ''}">
+                <div class="days-Whether ${
+                  this._data.unit === "°F" ? "felsius" : ""
+                }">
+                    <div class="whether-days ${
+                      this._data.unit === "°F" ? "hidden" : ""
+                    }">
                     <h3>${shortDays[0]}</h3>
                     <img src="${curImg(dayWhether.weathercode[0])}" alt="">
                     <div class="days-percentege">
-                        <h4>${dayWhether.maxTempreture[0]}${this._data.unit}</h4>
-                        <h4>${dayWhether.minTempreture[0]}${this._data.unit}</h4>
+                        <h4>${dayWhether.maxTempreture[0]}${
+      this._data.unit
+    }</h4>
+                        <h4>${dayWhether.minTempreture[0]}${
+      this._data.unit
+    }</h4>
                     </div>
                     </div>
                     <div class="whether-days">
                     <h3>${shortDays[1]}</h3>
                     <img src="${curImg(dayWhether.weathercode[1])}" alt="">
                     <div class="days-percentege">
-                        <h4>${dayWhether.maxTempreture[1]}${this._data.unit}</h4>
-                        <h4>${dayWhether.minTempreture[1]}${this._data.unit}</h4>
+                        <h4>${dayWhether.maxTempreture[1]}${
+      this._data.unit
+    }</h4>
+                        <h4>${dayWhether.minTempreture[1]}${
+      this._data.unit
+    }</h4>
                     </div>
                     </div>
                     <div class="whether-days">
                     <h3>${shortDays[2]}</h3>
                     <img src="${curImg(dayWhether.weathercode[2])}" alt="">
                     <div class="days-percentege">
-                        <h4>${dayWhether.maxTempreture[2]}${this._data.unit}</h4>
-                        <h4>${dayWhether.minTempreture[2]}${this._data.unit}</h4>
+                        <h4>${dayWhether.maxTempreture[2]}${
+      this._data.unit
+    }</h4>
+                        <h4>${dayWhether.minTempreture[2]}${
+      this._data.unit
+    }</h4>
                     </div>
                     </div>
                     <div class="whether-days">
                     <h3>${shortDays[3]}</h3>
                     <img src="${curImg(dayWhether.weathercode[3])}" alt="">
                     <div class="days-percentege">
-                        <h4>${dayWhether.maxTempreture[3]}${this._data.unit}</h4>
-                        <h4>${dayWhether.minTempreture[3]}${this._data.unit}</h4>
+                        <h4>${dayWhether.maxTempreture[3]}${
+      this._data.unit
+    }</h4>
+                        <h4>${dayWhether.minTempreture[3]}${
+      this._data.unit
+    }</h4>
                     </div>
                     </div>
                     <div class="whether-days">
                     <h3>${shortDays[4]}</h3>
                     <img src="${curImg(dayWhether.weathercode[4])}" alt="">
                     <div class="days-percentege">
-                        <h4>${dayWhether.maxTempreture[4]}${this._data.unit}</h4>
-                        <h4>${dayWhether.minTempreture[4]}${this._data.unit}</h4>
+                        <h4>${dayWhether.maxTempreture[4]}${
+      this._data.unit
+    }</h4>
+                        <h4>${dayWhether.minTempreture[4]}${
+      this._data.unit
+    }</h4>
                     </div>
                     </div>
                     <div class="whether-days">
                     <h3>${shortDays[5]}</h3>
                     <img src="${curImg(dayWhether.weathercode[5])}" alt="">
                     <div class="days-percentege">
-                        <h4>${dayWhether.maxTempreture[5]}${this._data.unit}</h4>
-                        <h4>${dayWhether.minTempreture[5]}${this._data.unit}</h4>
+                        <h4>${dayWhether.maxTempreture[5]}${
+      this._data.unit
+    }</h4>
+                        <h4>${dayWhether.minTempreture[5]}${
+      this._data.unit
+    }</h4>
                     </div>
                     </div>
-                    <div class="whether-days ${this._data.unit === '°F' ? 'hidden' : ''}">
+                    <div class="whether-days ${
+                      this._data.unit === "°F" ? "hidden" : ""
+                    }">
                     <h3>${shortDays[6]}</h3>
                     <img src="${curImg(dayWhether.weathercode[6])}" alt="">
                     <div class="days-percentege">
-                        <h4>${dayWhether.maxTempreture[6]}${this._data.unit}</h4>
-                        <h4>${dayWhether.minTempreture[6]}${this._data.unit}</h4>
+                        <h4>${dayWhether.maxTempreture[6]}${
+      this._data.unit
+    }</h4>
+                        <h4>${dayWhether.minTempreture[6]}${
+      this._data.unit
+    }</h4>
                     </div>
                     </div>
                 </div>
@@ -156,20 +193,36 @@ class GeoView{
                     <h1>Hourly forecast</h1>
                     <div class="btn-days">
                         <button class="toggle">
-                            <p>${shortDays.find(el=> el === activeDay.slice(0,3))}
+                            <p>${shortDays.find(
+                              (el) => el === activeDay.slice(0, 3)
+                            )}
                             </p>
                             <img src="public/images/icon-dropdown.svg" alt="" />
                         </button>
                     </div>
                 </div>
                 <div class="days-select hidden">
-                    <button class="day ${activeDay === fullDays[0] ? 'active' : ''}">${fullDays[0]}</button>
-                    <button class="day ${activeDay === fullDays[1] ? 'active' : ''}">${fullDays[1]}</button>
-                    <button class="day ${activeDay === fullDays[2] ? 'active' : ''}">${fullDays[2]}</button>
-                    <button class="day ${activeDay === fullDays[3] ? 'active' : ''}">${fullDays[3]}</button>
-                    <button class="day ${activeDay === fullDays[4] ? 'active' : ''}">${fullDays[4]}</button>
-                    <button class="day ${activeDay === fullDays[5] ? 'active' : ''}">${fullDays[5]}</button>
-                    <button class="day ${activeDay === fullDays[6] ? 'active' : ''}">${fullDays[6]}</button>
+                    <button class="day ${
+                      activeDay === fullDays[0] ? "active" : ""
+                    }">${fullDays[0]}</button>
+                    <button class="day ${
+                      activeDay === fullDays[1] ? "active" : ""
+                    }">${fullDays[1]}</button>
+                    <button class="day ${
+                      activeDay === fullDays[2] ? "active" : ""
+                    }">${fullDays[2]}</button>
+                    <button class="day ${
+                      activeDay === fullDays[3] ? "active" : ""
+                    }">${fullDays[3]}</button>
+                    <button class="day ${
+                      activeDay === fullDays[4] ? "active" : ""
+                    }">${fullDays[4]}</button>
+                    <button class="day ${
+                      activeDay === fullDays[5] ? "active" : ""
+                    }">${fullDays[5]}</button>
+                    <button class="day ${
+                      activeDay === fullDays[6] ? "active" : ""
+                    }">${fullDays[6]}</button>
                 </div>
                 </div>
                 <div class="whether-Hours">
@@ -233,8 +286,8 @@ class GeoView{
 
                 </div>
             </div>
-        `
-    }
+        `;
+  }
 }
 
 export default new GeoView();

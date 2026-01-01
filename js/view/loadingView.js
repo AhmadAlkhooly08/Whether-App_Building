@@ -1,14 +1,14 @@
-class LoadingView{
-    _parentEl = document.querySelector('.main-section');
+class LoadingView {
+  _parentEl = document.querySelector(".main-section");
 
-    render(){
-        this._parentEl.innerHTML = '';
-        const markup = this._view();
-        this._parentEl.insertAdjacentHTML("afterbegin",markup)
-    }
+  render() {
+    this._parentEl.innerHTML = "";
+    const markup = this._view();
+    this._parentEl.insertAdjacentHTML("afterbegin", markup);
+  }
 
-    _view(){
-        return`
+  _view() {
+    return `
             <div class="first-section">
                 <div class="loading loading-1">
                 <div class="loading-inner">
@@ -104,8 +104,8 @@ class LoadingView{
                 </div>
             </div>
 
-        `
-    }
+        `;
+  }
 }
 
-export default new LoadingView;
+export default new LoadingView();
